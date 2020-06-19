@@ -4,7 +4,7 @@ http://html2canvas.hertzen.com/
 https://github.com/tsayen/dom-to-image
 
 ```
-
+https://www.w3schools.com/html/html5_draganddrop.asp
 <!DOCTYPE HTML>
 <html>
 <head>
