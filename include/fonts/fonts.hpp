@@ -6,11 +6,11 @@
 #define OFFSET_BITMAP 54
 
 #include <stdint.h>
-#include "epaper/font8.hpp"
-#include "epaper/font12.hpp"
-#include "epaper/font16.hpp"
-#include "epaper/font20.hpp"
-#include "epaper/font24.hpp"
+#include "font8.hpp"
+#include "font12.hpp"
+#include "font16.hpp"
+#include "font20.hpp"
+#include "font24.hpp"
 typedef struct _tFont
 {
 	const uint8_t *table;
