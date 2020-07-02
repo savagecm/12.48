@@ -5,6 +5,95 @@
 class epaperProcessor
 {
 public:
+    epaperRet processLine(web::json::value jValue)
+    {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the line case");
+        }
+
+        //{"color":"red","positionx":[0,0],"positiony":[100,100],"lineStyle":"solid","dotPixel":"1*1"}
+
+        json::array posx = jValue.at("positionx").as_array();
+        json::array posy = jValue.at("positiony").as_array();
+        if (posx.size() != 2 || posy.size() != 2)
+        {
+            return epaperRet::BAD_REQUEST;
+        }
+        int posxx = posx.at(0).as_integer();
+        int posxy = posx.at(1).as_integer();
+        int posyx = posy.at(0).as_integer();
+        int posyy = posy.at(1).as_integer();
+
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "the line info is : " << posxx << ":" << posxy << ":" << posyx << ":" << posyy << ", color is : " << color);
+        }
+        Paint::getInstance()->drawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
+        return epaperRet::SUCCESS;
+    }
+    //  void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
+    epaperRet processString(web::json::value jValue)
+    {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the line case");
+        }
+        string data;
+        if (jValue.has_field("data"))
+        {
+            data = jValue.at("data").as_string();
+        }
+        else
+        {
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "no string in the json data");
+            }
+            return epaperRet::BAD_REQUEST;
+        }
+
+        int font;
+
+        if (jValue.has_field("font"))
+        {
+            font = jValue.at("font").as_integer();
+        }
+        else
+        {
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "no font in the json data");
+            }
+            return epaperRet::BAD_REQUEST;
+        }
+
+        int posx, posy;
+        if (jValue.has_field("position"))
+        {
+            json::array pos = jValue.at("position").as_array();
+
+            if (posx.size() != 2)
+            {
+                return epaperRet::BAD_REQUEST;
+            }
+            posx = pos[0];
+            poxy = pos[1];
+        }
+        else
+        {
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "no position in the json data");
+            }
+            return epaperRet::BAD_REQUEST;
+        }
+
+        //{"bcolor":"white","fcolor":"red","position":[0,0],"font":40,"data":"string detail"}
+        Paint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
+    }
+
+private:
     UWORD getColor(web::json::value jValue, string colorStr = "color")
     {
         UWORD Color = WHITE;
@@ -116,92 +205,5 @@ public:
             }
         }
         return dot;
-    }
-    epaperRet processLine(web::json::value jValue)
-    {
-        if (CHECK_LOG_LEVEL(debug))
-        {
-            __LOG(debug, "in the line case");
-        }
-
-        //{"color":"red","positionx":[0,0],"positiony":[100,100],"lineStyle":"solid","dotPixel":"1*1"}
-
-        json::array posx = jValue.at("positionx").as_array();
-        json::array posy = jValue.at("positiony").as_array();
-        if (posx.size() != 2 || posy.size() != 2)
-        {
-            return epaperRet::BAD_REQUEST;
-        }
-        int posxx = posx.at(0).as_integer();
-        int posxy = posx.at(1).as_integer();
-        int posyx = posy.at(0).as_integer();
-        int posyy = posy.at(1).as_integer();
-
-        if (CHECK_LOG_LEVEL(debug))
-        {
-            __LOG(debug, "the line info is : " << posxx << ":" << posxy << ":" << posyx << ":" << posyy << ", color is : " << color);
-        }
-        Paint::getInstance()->drawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
-        return epaperRet::SUCCESS;
-    }
-    //  void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
-    epaperRet processString(web::json::value jValue)
-    {
-        if (CHECK_LOG_LEVEL(debug))
-        {
-            __LOG(debug, "in the line case");
-        }
-        string data;
-        if (jValue.has_field("data"))
-        {
-            data = jValue.at("data").as_string();
-        }
-        else
-        {
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "no string in the json data");
-            }
-            return epaperRet::BAD_REQUEST;
-        }
-
-        int font;
-
-        if (jValue.has_field("font"))
-        {
-            font = jValue.at("font").as_integer();
-        }
-        else
-        {
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "no font in the json data");
-            }
-            return epaperRet::BAD_REQUEST;
-        }
-
-        int posx, posy;
-        if (jValue.has_field("position"))
-        {
-            json::array pos = jValue.at("position").as_array();
-
-            if (posx.size() != 2)
-            {
-                return epaperRet::BAD_REQUEST;
-            }
-            posx = pos[0];
-            poxy = pos[1];
-        }
-        else
-        {
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "no position in the json data");
-            }
-            return epaperRet::BAD_REQUEST;
-        }
-
-        //{"bcolor":"white","fcolor":"red","position":[0,0],"font":40,"data":"string detail"}
-        Paint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
     }
 }
