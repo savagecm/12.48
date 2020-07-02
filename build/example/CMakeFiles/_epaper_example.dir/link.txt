@@ -1,0 +1,1 @@
+/usr/bin/c++   -g2 -Wall -std=c++11 -fPIC    -rdynamic CMakeFiles/_epaper_example.dir/example.cpp.o  -o ../bin/epaper_example -lpthread -lbcm2835 

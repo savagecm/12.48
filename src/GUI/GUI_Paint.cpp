@@ -518,77 +518,7 @@ void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius,
 
 
 
-/******************************************************************************
-function:	Display nummber
-parameter:
-    Xstart           ：X coordinate
-    Ystart           : Y coordinate
-    Nummber          : The number displayed
-    Font             ：A structure pointer that displays a character size
-    Color_Background : Select the background color of the English character
-    Color_Foreground : Select the foreground color of the English character
-******************************************************************************/
-#define ARRAY_LEN 255
-void Paint_DrawNum(UWORD Xpoint, UWORD Ypoint, int32_t Nummber,
-                   sFONT *Font, UWORD Color_Background, UWORD Color_Foreground)
-{
 
-    int16_t Num_Bit = 0, Str_Bit = 0;
-    uint8_t Str_Array[ARRAY_LEN] = {0}, Num_Array[ARRAY_LEN] = {0};
-    uint8_t *pStr = Str_Array;
-
-    if (Xpoint > Paint.Width || Ypoint > Paint.Height)
-    {
-        Debug("Paint_DisNum Input exceeds the normal display range\r\n");
-        return;
-    }
-
-    //Converts a number to a string
-    while (Nummber)
-    {
-        Num_Array[Num_Bit] = Nummber % 10 + '0';
-        Num_Bit++;
-        Nummber /= 10;
-    }
-
-    //The string is inverted
-    while (Num_Bit > 0)
-    {
-        Str_Array[Str_Bit] = Num_Array[Num_Bit - 1];
-        Str_Bit++;
-        Num_Bit--;
-    }
-
-    //show
-    Paint_DrawString_EN(Xpoint, Ypoint, (const char *)pStr, Font, Color_Background, Color_Foreground);
-}
-
-/******************************************************************************
-function:	Display time
-parameter:
-    Xstart           ：X coordinate
-    Ystart           : Y coordinate
-    pTime            : Time-related structures
-    Font             ：A structure pointer that displays a character size
-    Color            : Select the background color of the English character
-******************************************************************************/
-void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, sFONT *Font,
-                    UWORD Color_Background, UWORD Color_Foreground)
-{
-    uint8_t value[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
-    UWORD Dx = Font->Width;
-
-    //Write data into the cache
-    Paint_DrawChar(Xstart, Ystart, value[pTime->Hour / 10], Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx, Ystart, value[pTime->Hour % 10], Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx + Dx / 4 + Dx / 2, Ystart, ':', Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx * 2 + Dx / 2, Ystart, value[pTime->Min / 10], Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx * 3 + Dx / 2, Ystart, value[pTime->Min % 10], Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx * 4 + Dx / 2 - Dx / 4, Ystart, ':', Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx * 5, Ystart, value[pTime->Sec / 10], Font, Color_Background, Color_Foreground);
-    Paint_DrawChar(Xstart + Dx * 6, Ystart, value[pTime->Sec % 10], Font, Color_Background, Color_Foreground);
-}
 
 /******************************************************************************
 function:	Display monochrome bitmap

@@ -27,7 +27,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "epd1248b.hpp"
+#include "ePaper/EPD_12in48.hpp"
 #include "config/Debug.hpp"
 
 static void EPD_Reset(void);
