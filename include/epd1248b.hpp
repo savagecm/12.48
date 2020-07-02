@@ -58,9 +58,6 @@ public:
         }
         EPD_12in48B_Clear();
 
-        std::unique_ptr<simpleLogger> simpleLoggerUptr(new simpleLogger());
-        INIT_LOGGER(simpleLoggerUptr);
-        SET_LOG_LEVEL(debug);
         return 0;
     }
 

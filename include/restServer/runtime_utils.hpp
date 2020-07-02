@@ -1,5 +1,5 @@
 //
-//  Created by Ivan Mejia on 12/03/16.
+//  Created by Ivan Mejia on 12/08/16.
 //
 // MIT License
 //
@@ -26,26 +26,22 @@
 
 #pragma once
 
-#include <cpprest/http_msg.h>
+#include <execinfo.h>
+#include <unistd.h>
 
-using namespace web;
-using namespace http;
-
-/*!
-    * Dispatcher class represents the basic interface for a 
-    * web serivce handler.
-    */
-class Controller
+class RuntimeUtils
 {
 public:
-    virtual void handleGet(http_request message) = 0;
-    virtual void handlePut(http_request message) = 0;
-    virtual void handlePost(http_request message) = 0;
-    virtual void handleDelete(http_request message) = 0;
-    virtual void handlePatch(http_request messge) = 0;
-    virtual void handleHead(http_request message) = 0;
-    virtual void handleOptions(http_request message) = 0;
-    virtual void handleTrace(http_request message) = 0;
-    virtual void handleConnect(http_request message) = 0;
-    virtual void handleMerge(http_request message) = 0;
+    static void printStackTrace()
+    {
+        const int MAX_CALLSTACK = 100;
+        void *callstack[MAX_CALLSTACK];
+        int frames;
+
+        // get void*'s for all entries on the stack...
+        frames = backtrace(callstack, MAX_CALLSTACK);
+
+        // print out all the frames to stderr...
+        backtrace_symbols_fd(callstack, frames, STDERR_FILENO);
+    }
 };

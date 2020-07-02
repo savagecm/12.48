@@ -2,10 +2,21 @@
 
 #include "epd1248b.hpp"
 #include "cpprest/json.h"
+#include <string>
+enum class epaperRet
+{
+    SUCCESS = 0,
+    SUCCESS_CREATED,
+    NOT_SUPPORT,
+    BAD_REQUEST
+
+};
+
+using namespace std;
 class epaperProcessor
 {
 public:
-    epaperRet processLine(web::json::value jValue)
+    static epaperRet processLine(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -27,13 +38,13 @@ public:
 
         if (CHECK_LOG_LEVEL(debug))
         {
-            __LOG(debug, "the line info is : " << posxx << ":" << posxy << ":" << posyx << ":" << posyy << ", color is : " << color);
+            __LOG(debug, "the line info is : " << posxx << ":" << posxy << ":" << posyx << ":" << posyy << ", color is : " << getColor(jValue));
         }
-        Paint::getInstance()->drawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
+        epd1248::getInstance()->drawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
     }
     //  void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
-    epaperRet processString(web::json::value jValue)
+    static epaperRet processString(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -73,12 +84,12 @@ public:
         {
             json::array pos = jValue.at("position").as_array();
 
-            if (posx.size() != 2)
+            if (pos.size() != 2)
             {
                 return epaperRet::BAD_REQUEST;
             }
-            posx = pos[0];
-            poxy = pos[1];
+            posx = pos.at(0).as_integer();
+            posy = pos.at(1).as_integer();
         }
         else
         {
@@ -90,11 +101,11 @@ public:
         }
 
         //{"bcolor":"white","fcolor":"red","position":[0,0],"font":40,"data":"string detail"}
-        Paint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
+        epd1248::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
     }
 
 private:
-    UWORD getColor(web::json::value jValue, string colorStr = "color")
+    static UWORD getColor(web::json::value jValue, string colorStr = "color")
     {
         UWORD Color = WHITE;
         if (jValue.has_field(colorStr))
@@ -108,7 +119,7 @@ private:
             {
                 Color = WHITE;
             }
-            else if (!color.compare "black")
+            else if (!color.compare("black"))
             {
                 Color = BLACK;
             }
@@ -123,17 +134,17 @@ private:
         return Color;
     }
 
-    LINE_STYLE getLineStyle(web::json::value jValue)
+    static LINE_STYLE getLineStyle(web::json::value jValue)
     {
         LINE_STYLE style = LINE_STYLE_SOLID;
         if (jValue.has_field("lineStyle"))
         {
             string lineStyle = jValue.at("lineStyle").as_string();
-            if (!color.compare("solid"))
+            if (!lineStyle.compare("solid"))
             {
                 style = LINE_STYLE_SOLID;
             }
-            else if (!color.compare("dotted"))
+            else if (!lineStyle.compare("dotted"))
             {
                 style = LINE_STYLE_DOTTED;
             }
@@ -147,7 +158,7 @@ private:
         }
         return style;
     }
-    DOT_PIXEL getDotPixel(web::json::value jValue)
+    static DOT_PIXEL getDotPixel(web::json::value jValue)
     {
         DOT_PIXEL dot = DOT_PIXEL_1X1;
         if (jValue.has_field("dotPixel"))
@@ -206,4 +217,4 @@ private:
         }
         return dot;
     }
-}
+};

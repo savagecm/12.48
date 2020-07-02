@@ -266,7 +266,7 @@ function:	Clear the color of the picture
 parameter:
     Color   :   Painted colors
 ******************************************************************************/
-void Paint_Clear(UWORD Color)
+void Paint_Clear(UWORD Color = WHITE)
 {
     // Debug("x = %d, y = %d\r\n", Paint.WidthByte, Paint.Height);
     for (UWORD Y = 0; Y < Paint.HeightByte; Y++)
@@ -280,7 +280,7 @@ void Paint_Clear(UWORD Color)
             }
             else if (Color == RED)
             {
-                Paint.Image[Addr] = 0xFF;
+                Paint.RImage[Addr] = 0xFF;
             }
             else
             {

@@ -27,6 +27,7 @@
 #pragma once
 #include <cpprest/http_msg.h>
 #include "restServer/basic_controller.hpp"
+#include "restServer/epaperProcessor.hpp"
 #include "logger/logger.hpp"
 #include "epd1248b.hpp"
 
@@ -131,14 +132,7 @@ public:
         _listener.support(methods::PATCH, std::bind(&MicroserviceController::handlePatch, this, std::placeholders::_1));
         _listener.support(methods::OPTIONS, std::bind(&MicroserviceController::handleOptions, this, std::placeholders::_1));
     }
-    enum class epaperRet
-    {
-        SUCCESS = 0,
-        SUCCESS_CREATED,
-        NOT_SUPPORT,
-        BAD_REQUEST
 
-    };
     // need path not empty
     epaperRet ProcessData(web::json::value jValue, std::vector<utility::string_t> path, const http::method &method)
     {
@@ -168,6 +162,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/line");
                 }
+                epaperProcessor::processLine(jValue);
             }
             else if (path[1] == "circle")
             {
@@ -226,6 +221,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
+                epd1248::getInstance()->display();
             }
             else
             {

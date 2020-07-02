@@ -1,24 +1,38 @@
 
 
-#include "epd1248b.hpp"
-
+#include "restServer/microsvc_controller.hpp"
+#include "restServer/runtime_utils.hpp"
+#include "restServer/usr_interrupt_handler.hpp"
 int main()
 {
+    // set up logger
+    std::unique_ptr<simpleLogger> simpleLoggerUptr(new simpleLogger());
+    INIT_LOGGER(simpleLoggerUptr);
+    SET_LOG_LEVEL(debug);
+    // init epaper
     epd1248 *epdInstance = epd1248::getInstance();
     epdInstance->init();
-    epdInstance->printString("你好世界", 48, 100, 100, BLACK, WHITE);
-    epdInstance->printString("红色的字白色的底", 48, 200, 100, RED, WHITE);
-    epdInstance->printString("红色的字黑色的底", 48, 300, 100, RED, BLACK);
+    // init rest server
+	MicroserviceController server;
+    http_listener_config server_config;
+	server.setEndpoint("http://0.0.0.0:6502/v1/api", server_config);
 
-    epdInstance->printString("abcdefg", 24, 400, 100, BLACK, RED);
-    epdInstance->printString("hijklmn", 24, 500, 100, BLACK, WHITE);
+    try
+    {
+        // wait for server initialization...
+        server.accept().wait();
+        std::cout << "Modern C++ Microservice now listening for requests at: " << server.endpoint() << '\n';
 
-    epdInstance->printString("12345^&*()|}{~!", 24, 600, 100, BLACK, WHITE);
+        InterruptHandler::waitForUserInterrupt();
 
-    epdInstance->printString("准备进入睡眠模式", 48, 700, 100, BLACK, WHITE);
-    epdInstance->display();
-    epdInstance->sleep();
-    epdInstance->printString("从睡眠模式中唤醒", 48, 700, 100, BLACK, WHITE);
-    epdInstance->display();
-    epdInstance->sleep();
+        server.shutdown().wait();
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "somehitng wrong happen! :(" << '\n';
+    }
+    catch (...)
+    {
+        RuntimeUtils::printStackTrace();
+    }
 }
