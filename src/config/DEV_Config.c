@@ -30,7 +30,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "DEV_Config.h"
+#include "config/DEV_Config.h"
 
 SOFTWARE_SPI software_spi;
 

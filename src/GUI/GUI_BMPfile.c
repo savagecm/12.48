@@ -35,9 +35,9 @@
 #
 ******************************************************************************/
 
-#include "GUI_BMPfile.h"
-#include "GUI_Paint.h"
-#include "Debug.h"
+#include "GUI/GUI_BMPfile.h"
+#include "GUI/GUI_Paint.h"
+#include "config/Debug.h"
 
 #include <fcntl.h>
 #include <unistd.h>

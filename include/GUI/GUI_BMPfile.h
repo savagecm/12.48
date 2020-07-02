@@ -42,8 +42,8 @@
 #include <unistd.h>
 #include <stdint.h>
 
-#include "DEV_Config.h"
-#include "EPD_12in48.h"
+#include "config/DEV_Config.h"
+#include "epd1248b.hpp"
 
 /*Bitmap file header   14bit*/
 typedef struct BMP_FILE_HEADER {

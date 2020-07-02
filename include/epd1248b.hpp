@@ -7,9 +7,8 @@
 
 #include "fonts/fonts.hpp"
 #include "GUI/GUI_Paint.h"
-#include <string.h>
-#include <logger/simple_logger.hpp>
-#include <e-Paper/EPD_12in48b.h>
+#include "logger/simple_logger.hpp"
+#include "epd1248b.hpp"
 
 #include <iconv.h>
 #include <stdio.h>

@@ -27,8 +27,8 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "EPD_12in48b.h"
-#include "Debug.h"
+#include "epd1248b.hpp"
+#include "config/Debug.h"
 
 static void EPD_Reset(void);
 static void EPD_M1_SendCommand(UBYTE Reg);
