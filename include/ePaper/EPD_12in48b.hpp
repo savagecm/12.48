@@ -30,7 +30,7 @@
 #ifndef _EPD_12IN48B_H_
 #define _EPD_12IN48B_H_
 
-#include "config/DEV_Config.h"
+#include "config/DEV_Config.hpp"
 
 // Display resolution
 #define EPD_12in48B_MAX_WIDTH       1304

@@ -28,7 +28,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "config/RPI_sysfs_gpio.h"
+#include "config/RPI_sysfs_gpio.hpp"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>

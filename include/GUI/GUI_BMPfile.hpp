@@ -42,7 +42,7 @@
 #include <unistd.h>
 #include <stdint.h>
 
-#include "config/DEV_Config.h"
+#include "config/DEV_Config.hpp"
 #include "epd1248b.hpp"
 
 /*Bitmap file header   14bit*/

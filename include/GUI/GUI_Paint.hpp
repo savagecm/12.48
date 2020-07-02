@@ -47,7 +47,7 @@
 #ifndef __GUI_PAINT_H
 #define __GUI_PAINT_H
 
-#include "config/DEV_Config.h"
+#include "config/DEV_Config.hpp"
 #include "fonts/fonts.hpp"
 
 /**

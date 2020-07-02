@@ -6,7 +6,7 @@
 #define EPDPAINT_WHITE 0x3
 
 #include "fonts/fonts.hpp"
-#include "GUI/GUI_Paint.h"
+#include "GUI/GUI_Paint.hpp"
 #include "logger/simple_logger.hpp"
 #include "epd1248b.hpp"
 
