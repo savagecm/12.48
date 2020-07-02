@@ -244,16 +244,20 @@ void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
     UBYTE Rdata = Paint.Image[Addr];
     if (Color == BLACK)
     {
+        // for black need to set the bit to 0
         Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
     }
     else if (Color == RED)
     {
-        Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
+        // for red need to set the bit to 1
+        Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
     }
     else
     {
+        // here there is some tricky
+        // need to set BW/RW both
+        Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
         Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
-        Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
     }
 }
 
@@ -270,7 +274,18 @@ void Paint_Clear(UWORD Color)
         for (UWORD X = 0; X < Paint.WidthByte; X++)
         { //8 pixel =  1 byte
             UDOUBLE Addr = X + Y * Paint.WidthByte;
-            Paint.Image[Addr] = Color;
+            if (Color == BLACK || Color == WHITE)
+            {
+                Paint.Image[Addr] = Color;
+            }
+            else if (Color == RED)
+            {
+                Paint.Image[Addr] = 0xFF;
+            }
+            else
+            {
+                // unsupport colour
+            }
         }
     }
 }
@@ -515,10 +530,6 @@ void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius,
         }
     }
 }
-
-
-
-
 
 /******************************************************************************
 function:	Display monochrome bitmap

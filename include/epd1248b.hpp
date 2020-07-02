@@ -16,6 +16,8 @@
 #include <iostream>
 #include <string>
 
+#define USE_BCM2835_LIB true
+
 class epd1248
 {
 public:
@@ -67,7 +69,148 @@ public:
         static epd1248 *ins = new epd1248();
         return ins;
     }
+    void setRotate(UWORD Rotate)
+    {
+        Paint_SetRotate(Rotate);
+    }
 
+    void setMirror(UBYTE mirror)
+    {
+        Paint_SetMirroring(mirror);
+    }
+
+    void clear(UWORD Color)
+    {
+        Paint_Clear(Color);
+    }
+    void display()
+    {
+        EPD_12in48B_Display(BlackImage, RedImage);
+    }
+
+    void sleep()
+    {
+        EPD_12in48B_Sleep();
+    }
+
+    void turnOnDisplay()
+    {
+        EPD_12in48B_TurnOnDisplay();
+    }
+    void clearWindows(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color)
+    {
+        Paint_ClearWindows(Xstart, Ystart, Xend, Yend, Color);
+    }
+
+    //Drawing
+    void drawPoint(UWORD Xpoint, UWORD Ypoint, UWORD Color, DOT_PIXEL Dot_Pixel, DOT_STYLE Dot_FillWay)
+    {
+        Paint_DrawPoint(Xpoint, Ypoint, Color, Dot_Pixel, Dot_FillWay);
+    }
+
+    void drawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
+    {
+        Paint_DrawLine(Xstart, Ystart, Xend, Yend, Color, Line_Style, Dot_Pixel);
+    }
+
+    void drawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
+    {
+        Paint_DrawRectangle(Xstart, Ystart, Xend, Yend, Color, Filled, Dot_Pixel);
+    }
+
+    void drawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
+    {
+        Paint_DrawCircle(X_Center, Y_Center, Radius, Color, Draw_Fill, Dot_Pixel);
+    }
+    // note: the maxWidth default is EPD_12in48B_MAX_WIDTH without rotate or mirror....
+    // which means the max width, when hit the max width, will change another line
+    // same meaning with maxHeight
+    void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
+    {
+        std::string outStr = utf8_to_gb2312(inStr);
+
+        for (unsigned int i = 0; i < outStr.length();)
+        {
+            if (outStr[i] <= 0x7F)
+            {
+                printf("receive ASCII code : %c\n", outStr[i]);
+                if (font == 8)
+                {
+                    display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 12)
+                {
+                    display_word(&outStr[i], &Font12, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 16)
+                {
+                    display_word(&outStr[i], &Font16, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 20)
+                {
+                    display_word(&outStr[i], &Font20, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 24)
+                {
+                    display_word(&outStr[i], &Font24, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else
+                {
+                    if (CHECK_LOG_LEVEL(debug))
+                    {
+                        __LOG(debug, "unsupported font, font is : " << font);
+                    }
+                    i++;
+                    continue;
+                }
+                i++;
+            }
+            else
+            {
+                if (font == 12)
+                {
+                    display_word(&outStr[i], &HZFont12, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 14)
+                {
+                    display_word(&outStr[i], &HZFont14, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 16)
+                {
+                    display_word(&outStr[i], &HZFont16, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 24)
+                {
+                    display_word(&outStr[i], &HZFont24, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 32)
+                {
+                    display_word(&outStr[i], &HZFont32, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 40)
+                {
+                    display_word(&outStr[i], &HZFont40, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else if (font == 48)
+                {
+                    display_word(&outStr[i], &HZFont48, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
+                }
+                else
+                {
+                    if (CHECK_LOG_LEVEL(debug))
+                    {
+                        __LOG(debug, "unsupported font, font is : " << font);
+                    }
+
+                    i += 2;
+                    continue;
+                }
+                i += 2;
+            }
+        }
+    }
+
+private:
     void DrawCharAt(int x, int y, char ascii_char, const sFONT *font, int color, int bcolour = EPDPAINT_WHITE)
     {
         int i, j;
@@ -238,93 +381,6 @@ public:
     {
         return convert("utf-8", "gb2312", from, ignore_error, skip_error);
     }
-    // note: the maxWidth default is EPD_12in48B_MAX_WIDTH without rotate or mirror....
-    // which means the max width, when hit the max width, will change another line
-    // same meaning with maxHeight
-    void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
-    {
-        std::string outStr = utf8_to_gb2312(inStr);
-
-        for (unsigned int i = 0; i < outStr.length();)
-        {
-            if (outStr[i] <= 0x7F)
-            {
-                printf("receive ASCII code : %c\n", outStr[i]);
-                if (font == 8)
-                {
-                    display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 12)
-                {
-                    display_word(&outStr[i], &Font12, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 16)
-                {
-                    display_word(&outStr[i], &Font16, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 20)
-                {
-                    display_word(&outStr[i], &Font20, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 24)
-                {
-                    display_word(&outStr[i], &Font24, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else
-                {
-                    if (CHECK_LOG_LEVEL(debug))
-                    {
-                        __LOG(debug, "unsupported font, font is : " << font);
-                    }
-                    i++;
-                    continue;
-                }
-                i++;
-            }
-            else
-            {
-                if (font == 12)
-                {
-                    display_word(&outStr[i], &HZFont12, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 14)
-                {
-                    display_word(&outStr[i], &HZFont14, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 16)
-                {
-                    display_word(&outStr[i], &HZFont16, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 24)
-                {
-                    display_word(&outStr[i], &HZFont24, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 32)
-                {
-                    display_word(&outStr[i], &HZFont32, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 40)
-                {
-                    display_word(&outStr[i], &HZFont40, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else if (font == 48)
-                {
-                    display_word(&outStr[i], &HZFont48, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                }
-                else
-                {
-                    if (CHECK_LOG_LEVEL(debug))
-                    {
-                        __LOG(debug, "unsupported font, font is : " << font);
-                    }
-
-                    i += 2;
-                    continue;
-                }
-                i += 2;
-            }
-        }
-    }
 
     void display_word(char *oneChar, const sFONT *font, bool isCH, int &posx, int &posy, int colour, int bcolour, int maxWidth, int maxHeight)
     {
@@ -455,7 +511,6 @@ public:
         free(chs);
     }
 
-private:
     UBYTE *BlackImage;
     UBYTE *RedImage;
 };
