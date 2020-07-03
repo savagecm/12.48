@@ -1,3 +1,3 @@
 #include "ePaper/piDriver.hpp"
 
-SOFTWARE_SPI piDriver::software_spi();
+SOFTWARE_SPI piDriver::software_spi;

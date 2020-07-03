@@ -5,6 +5,9 @@
 #include <errno.h>
 #include <string.h>
 #include <iconv.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #define USE_BCM2835_LIB true
 
 #ifdef USE_BCM2835_LIB
