@@ -27,7 +27,12 @@
 #pragma once
 
 #include <string>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
+#include <boost/asio.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
