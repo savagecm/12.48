@@ -40,6 +40,10 @@ public:
         static guiPaint *ret = new guiPaint();
         return ret;
     }
+    PAINT getPaint()
+    {
+        return Paint;
+    }
 
     /******************************************************************************
 function:	Select Image Rotate
@@ -470,9 +474,92 @@ parameter:
             }
         }
     }
+    void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour)
+    {
+        std::string outStr = utf8_to_gb2312(inStr);
+
+        for (unsigned int i = 0; i < outStr.length();)
+        {
+            if (outStr[i] <= 0x7F)
+            {
+                printf("receive ASCII code : %c\n", outStr[i]);
+                if (font == 8)
+                {
+                    display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour);
+                }
+                else if (font == 12)
+                {
+                    display_word(&outStr[i], &Font12, false, posx, posy, colour, bcolour);
+                }
+                else if (font == 16)
+                {
+                    display_word(&outStr[i], &Font16, false, posx, posy, colour, bcolour);
+                }
+                else if (font == 20)
+                {
+                    display_word(&outStr[i], &Font20, false, posx, posy, colour, bcolour);
+                }
+                else if (font == 24)
+                {
+                    display_word(&outStr[i], &Font24, false, posx, posy, colour, bcolour);
+                }
+                else
+                {
+                    if (CHECK_LOG_LEVEL(debug))
+                    {
+                        __LOG(debug, "unsupported font, font is : " << font);
+                    }
+                    i++;
+                    continue;
+                }
+                i++;
+            }
+            else
+            {
+                if (font == 12)
+                {
+                    display_word(&outStr[i], &HZFont12, true, posx, posy, colour, bcolour);
+                }
+                else if (font == 14)
+                {
+                    display_word(&outStr[i], &HZFont14, true, posx, posy, colour, bcolour);
+                }
+                else if (font == 16)
+                {
+                    display_word(&outStr[i], &HZFont16, true, posx, posy, colour, bcolour);
+                }
+                else if (font == 24)
+                {
+                    display_word(&outStr[i], &HZFont24, true, posx, posy, colour, bcolour);
+                }
+                else if (font == 32)
+                {
+                    display_word(&outStr[i], &HZFont32, true, posx, posy, colour, bcolour);
+                }
+                else if (font == 40)
+                {
+                    display_word(&outStr[i], &HZFont40, true, posx, posy, colour, bcolour);
+                }
+                else if (font == 48)
+                {
+                    display_word(&outStr[i], &HZFont48, true, posx, posy, colour, bcolour);
+                }
+                else
+                {
+                    if (CHECK_LOG_LEVEL(debug))
+                    {
+                        __LOG(debug, "unsupported font, font is : " << font);
+                    }
+
+                    i += 2;
+                    continue;
+                }
+                i += 2;
+            }
+        }
+    }
 
 private:
-
     void DrawCharAt(int x, int y, char ascii_char, const sFONT *font, int color, int bcolour = WHITE)
     {
         int i, j;
