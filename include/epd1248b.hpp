@@ -24,7 +24,6 @@ extern "C"
 #include <iostream>
 #include <string>
 
-#define USE_BCM2835_LIB true
 
 class epd1248
 {
