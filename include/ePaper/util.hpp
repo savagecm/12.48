@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <iconv.h>
 #define USE_BCM2835_LIB true
 
 #ifdef USE_BCM2835_LIB
@@ -178,7 +179,7 @@ enum DOT_PIXEL
     DOT_PIXEL_6X6,     // 6 X 6
     DOT_PIXEL_7X7,     // 7 X 7
     DOT_PIXEL_8X8,     // 8 X 8
-} DOT_PIXEL;
+} ;
 #define DOT_PIXEL_DFT DOT_PIXEL_1X1 //Default dot pilex
 
 /**
@@ -207,7 +208,7 @@ enum DRAW_FILL
 {
     DRAW_FILL_EMPTY = 0,
     DRAW_FILL_FULL,
-} DRAW_FILL;
+} ;
 
 struct PAINT
 {

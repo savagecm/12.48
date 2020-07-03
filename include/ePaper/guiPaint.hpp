@@ -1,7 +1,8 @@
 #pragma once
 
 #include "fonts/fonts.hpp"
-#include "util.hpp"
+
+#include "ePaper/util.hpp"
 
 class guiPaint
 {
@@ -472,7 +473,7 @@ parameter:
 
 private:
 
-    void DrawCharAt(int x, int y, char ascii_char, const sFONT *font, int color, int bcolour = EPDPAINT_WHITE)
+    void DrawCharAt(int x, int y, char ascii_char, const sFONT *font, int color, int bcolour = WHITE)
     {
         int i, j;
         unsigned int char_offset = (ascii_char - ' ') * font->Height * (font->Width / 8 + (font->Width % 8 ? 1 : 0));
