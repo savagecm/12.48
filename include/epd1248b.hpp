@@ -5,11 +5,18 @@
 #define EPDPAINT_RED 0x4
 #define EPDPAINT_WHITE 0x3
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 #include "fonts/fonts.hpp"
 #include "GUI/GUI_Paint.hpp"
-#include "logger/simple_logger.hpp"
 #include "ePaper/EPD_12in48b.hpp"
 #include "config/DEV_Config.hpp"
+#ifdef __cplusplus
+}
+#endif
+#include "logger/simple_logger.hpp"
 
 #include <iconv.h>
 #include <stdio.h>
