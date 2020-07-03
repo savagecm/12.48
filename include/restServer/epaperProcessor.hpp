@@ -1,6 +1,6 @@
 #pragma once
 
-#include "epd1248b.hpp"
+#include "ePaper/epd12in48.hpp"
 #include "cpprest/json.h"
 #include <string>
 enum class epaperRet
