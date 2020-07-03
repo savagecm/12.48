@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ePaper/epd12in48.hpp"
+#include "ePaper/guiPaint.hpp"
 #include "cpprest/json.h"
 #include <string>
 enum class epaperRet
@@ -104,7 +105,7 @@ public:
         guiPaint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
     }
 
-private:
+
     static UWORD getColor(web::json::value jValue, string colorStr = "color")
     {
         UWORD Color = WHITE;

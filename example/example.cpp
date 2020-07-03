@@ -3,7 +3,7 @@
 #include "restServer/microsvc_controller.hpp"
 #include "restServer/runtime_utils.hpp"
 #include "restServer/usr_interrupt_handler.hpp"
-
+#include "ePaper/epd12in48.hpp"
 #include "logger/simple_logger.hpp"
 int main()
 {
@@ -12,12 +12,11 @@ int main()
     INIT_LOGGER(simpleLoggerUptr);
     SET_LOG_LEVEL(debug);
     // init epaper
-    epd1248 *epdInstance = epd1248::getInstance();
-    epdInstance->init();
+    epd12in48::EPD_12in48B_Init();
     // init rest server
-	MicroserviceController server;
+    MicroserviceController server;
     http_listener_config server_config;
-	server.setEndpoint("http://0.0.0.0:6502/v1/api", server_config);
+    server.setEndpoint("http://0.0.0.0:6502/v1/api", server_config);
 
     try
     {

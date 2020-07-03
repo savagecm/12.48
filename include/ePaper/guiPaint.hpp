@@ -471,7 +471,7 @@ parameter:
     }
 
 private:
-private:
+
     void DrawCharAt(int x, int y, char ascii_char, const sFONT *font, int color, int bcolour = EPDPAINT_WHITE)
     {
         int i, j;
@@ -655,7 +655,7 @@ private:
                 }
                 else
                 {
-                    epd1248::getInstance()->DrawCharAt(posx, posy, *oneChar, font, colour, bcolour);
+                    DrawCharAt(posx, posy, *oneChar, font, colour, bcolour);
                 }
                 posx += font->Width;
             }
@@ -672,7 +672,7 @@ private:
                     }
                     else
                     {
-                        epd1248::getInstance()->DrawCharAt(posx, posy, *oneChar, font, colour, bcolour);
+                        DrawCharAt(posx, posy, *oneChar, font, colour, bcolour);
                     }
                     posx += font->Width;
                 }
