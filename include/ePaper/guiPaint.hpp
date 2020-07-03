@@ -474,7 +474,7 @@ parameter:
             }
         }
     }
-    void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour)
+    void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
     {
         std::string outStr = utf8_to_gb2312(inStr);
 
@@ -485,23 +485,23 @@ parameter:
                 printf("receive ASCII code : %c\n", outStr[i]);
                 if (font == 8)
                 {
-                    display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 12)
                 {
-                    display_word(&outStr[i], &Font12, false, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &Font12, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 16)
                 {
-                    display_word(&outStr[i], &Font16, false, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &Font16, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 20)
                 {
-                    display_word(&outStr[i], &Font20, false, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &Font20, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 24)
                 {
-                    display_word(&outStr[i], &Font24, false, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &Font24, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else
                 {
@@ -518,31 +518,31 @@ parameter:
             {
                 if (font == 12)
                 {
-                    display_word(&outStr[i], &HZFont12, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont12, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 14)
                 {
-                    display_word(&outStr[i], &HZFont14, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont14, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 16)
                 {
-                    display_word(&outStr[i], &HZFont16, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont16, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 24)
                 {
-                    display_word(&outStr[i], &HZFont24, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont24, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 32)
                 {
-                    display_word(&outStr[i], &HZFont32, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont32, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 40)
                 {
-                    display_word(&outStr[i], &HZFont40, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont40, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else if (font == 48)
                 {
-                    display_word(&outStr[i], &HZFont48, true, posx, posy, colour, bcolour);
+                    display_word(&outStr[i], &HZFont48, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
                 }
                 else
                 {
@@ -731,7 +731,7 @@ private:
         return convert("utf-8", "gb2312", from, ignore_error, skip_error);
     }
 
-    void display_word(char *oneChar, const sFONT *font, bool isCH, int &posx, int &posy, int colour, int bcolour, int maxWidth, int maxHeight)
+    void display_word(char *oneChar, const sFONT *font, bool isCH, int posx, int posy, int colour, int bcolour, int maxWidth, int maxHeight)
     {
         if ((posy + font->Height) <= maxHeight)
         {
