@@ -9,6 +9,7 @@
 #include "GUI/GUI_Paint.hpp"
 #include "logger/simple_logger.hpp"
 #include "ePaper/EPD_12in48b.hpp"
+#include "config/DEV_Config.hpp"
 
 #include <iconv.h>
 #include <stdio.h>
