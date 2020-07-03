@@ -40,7 +40,7 @@ public:
         {
             __LOG(debug, "the line info is : " << posxx << ":" << posxy << ":" << posyx << ":" << posyy << ", color is : " << getColor(jValue));
         }
-        epd1248::getInstance()->drawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
+        guiPaint::getInstance()->Paint_DrawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
     }
     //  void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
@@ -101,7 +101,7 @@ public:
         }
 
         //{"bcolor":"white","fcolor":"red","position":[0,0],"font":40,"data":"string detail"}
-        epd1248::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
+        guiPaint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
     }
 
 private:

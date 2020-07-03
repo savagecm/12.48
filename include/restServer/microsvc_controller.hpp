@@ -140,13 +140,13 @@ public:
         {
             __LOG(debug, "in function ProcessImage");
         }
-        epd12in48 *globPaint = epd12in48::getInstance();
+        guiPaint *globPaint = guiPaint::getInstance();
         if (method == methods::POST || method == methods::PUT)
         {
             // for post, it means create
             // for put, it means update and user provide the whole info
             // so for these two methods, we need to clear first
-            globPaint->clear(WHITE);
+            globPaint->Paint_Clear(WHITE);
         }
 
         // if we go into this function. the path is not empty and the path start with image
@@ -221,7 +221,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-                epd12in48::getInstance()->display();
+                epd12in48::display();
             }
             else
             {

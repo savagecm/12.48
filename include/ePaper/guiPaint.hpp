@@ -10,6 +10,9 @@ public:
     guiPaint()
     {
         UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
+
+        UBYTE *BlackImage;
+        UBYTE *RedImage;
         if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
         {
             printf("Failed to apply for black memory...\r\n");
@@ -20,12 +23,15 @@ public:
             printf("Failed to apply for red memory...\r\n");
             exit(0);
         }
+
+        Paint.Image = BlackImage;
+        Paint.RImage = RedImage;
     }
 
     ~guiPaint()
     {
-        free(this->BlackImage);
-        free(this->RedImage);
+        free(Paint.Image);
+        free(Paint.RImage);
     }
 
     static guiPaint *getInstance()
@@ -34,7 +40,6 @@ public:
         return ret;
     }
 
- 
     /******************************************************************************
 function:	Select Image Rotate
 parameter:
@@ -766,9 +771,6 @@ private:
         }
         free(chs);
     }
-
-    UBYTE *BlackImage;
-    UBYTE *RedImage;
 
     PAINT Paint;
 };

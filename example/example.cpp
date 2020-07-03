@@ -3,6 +3,8 @@
 #include "restServer/microsvc_controller.hpp"
 #include "restServer/runtime_utils.hpp"
 #include "restServer/usr_interrupt_handler.hpp"
+
+#include "logger/simple_logger.hpp"
 int main()
 {
     // set up logger
