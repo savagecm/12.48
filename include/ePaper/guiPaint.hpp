@@ -28,53 +28,13 @@ public:
         free(this->RedImage);
     }
 
-    /******************************************************************************
-function:	Create Image
-parameter:
-    image   :   Pointer to the image cache
-    width   :   The width of the picture
-    Height  :   The height of the picture
-    Color   :   Whether the picture is inverted
-******************************************************************************/
-    void Paint_NewImage(UBYTE *image, UWORD Width, UWORD Height, UWORD Rotate, UWORD Color)
+    static guiPaint *getInstance()
     {
-        Paint.Image = NULL;
-        Paint.Image = image;
-
-        Paint.WidthMemory = Width;
-        Paint.HeightMemory = Height;
-        Paint.Color = Color;
-        Paint.WidthByte = Width / 8;
-        Paint.HeightByte = Height;
-
-        printf("Create New Image:\r\n");
-        printf("WidthMemory = %d, HeightMemory = %d\r\n", Paint.WidthMemory, Paint.HeightMemory);
-
-        Paint.Rotate = Rotate;
-        Paint.Mirror = MIRROR_NONE;
-
-        if (Rotate == ROTATE_0 || Rotate == ROTATE_180)
-        {
-            Paint.Width = Width;
-            Paint.Height = Height;
-        }
-        else
-        {
-            Paint.Width = Height;
-            Paint.Height = Width;
-        }
+        static guiPaint *ret = new guiPaint();
+        return ret;
     }
 
-    /******************************************************************************
-function:	Select Image
-parameter:
-    image   :   Pointer to the image cache
-******************************************************************************/
-    void Paint_SelectImage(UBYTE *image)
-    {
-        Paint.Image = image;
-    }
-
+ 
     /******************************************************************************
 function:	Select Image Rotate
 parameter:

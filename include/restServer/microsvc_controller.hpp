@@ -140,7 +140,7 @@ public:
         {
             __LOG(debug, "in function ProcessImage");
         }
-        epd1248 *globPaint = epd1248::getInstance();
+        epd12in48 *globPaint = epd12in48::getInstance();
         if (method == methods::POST || method == methods::PUT)
         {
             // for post, it means create
@@ -221,7 +221,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-                epd1248::getInstance()->display();
+                epd12in48::getInstance()->display();
             }
             else
             {

@@ -5,14 +5,13 @@
 /*------------------------------------------------------------------------------------------------------*/
 class piDriver
 {
-    SOFTWARE_SPI software_spi;
-
+public:
     /******************************************************************************
     function:	Write GPIO
     parameter:
     Info:   
     ******************************************************************************/
-    void DEV_Digital_Write(UWORD Pin, UBYTE Value)
+    static void DEV_Digital_Write(UWORD Pin, UBYTE Value)
     {
 #ifdef USE_BCM2835_LIB
         bcm2835_gpio_write(Pin, Value);
@@ -28,7 +27,7 @@ class piDriver
     parameter:
     Info:   return  IO status
     ******************************************************************************/
-    UBYTE DEV_Digital_Read(UWORD Pin)
+    static UBYTE DEV_Digital_Read(UWORD Pin)
     {
         UBYTE Read_value = 0;
 #ifdef USE_BCM2835_LIB
@@ -46,7 +45,7 @@ function:	Set GPIO mode
 parameter:
 Info:
 ******************************************************************************/
-    void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
+    static void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
     {
 #ifdef USE_BCM2835_LIB
         if (Mode == 0 || Mode == BCM2835_GPIO_FSEL_INPT)
@@ -130,7 +129,7 @@ function:	Module Initialize, the BCM2835 library and initialize the pins, SPI pr
 parameter:
 Info:
 ******************************************************************************/
-    UBYTE DEV_ModuleInit(void)
+    static UBYTE DEV_ModuleInit(void)
     {
 #ifdef USE_BCM2835_LIB
         if (!bcm2835_init())
@@ -172,7 +171,7 @@ function:	Microsecond delay
 parameter:
 Info:
 ******************************************************************************/
-    void DEV_Delay_us(UWORD xus)
+    static void DEV_Delay_us(UWORD xus)
     {
         UWORD i;
         while (xus)
@@ -186,7 +185,7 @@ Info:
     /**
  * delay x ms
 **/
-    void DEV_Delay_ms(UDOUBLE xms)
+    static void DEV_Delay_ms(UDOUBLE xms)
     {
 #ifdef USE_BCM2835_LIB
         bcm2835_delay(xms);
@@ -206,7 +205,7 @@ function:	SPI Mode 0
 parameter:
 Info:
 ******************************************************************************/
-    void DEV_SPI_WriteByte(UBYTE value)
+    static void DEV_SPI_WriteByte(UBYTE value)
     {
         char i;
         DEV_Delay_us(6);
@@ -294,7 +293,7 @@ Info:
         }
     }
 
-    UBYTE DEV_SPI_ReadByte(UBYTE Reg)
+    static UBYTE DEV_SPI_ReadByte(UBYTE Reg)
     {
         unsigned char i, j;
         //set mosi pin intput
@@ -325,7 +324,7 @@ function:	Module exits, closes SPI and BCM2835 library
 parameter:
 Info:
 ******************************************************************************/
-    void DEV_ModuleExit(void)
+    static void DEV_ModuleExit(void)
     {
         DEV_Digital_Write(EPD_M1S1_RST_PIN, 0);
         DEV_Digital_Write(EPD_M2S2_RST_PIN, 0);
@@ -345,7 +344,7 @@ Info:
 #endif
     }
 
-    int SYSFS_GPIO_Export(int Pin)
+    static int SYSFS_GPIO_Export(int Pin)
     {
         char buffer[NUM_MAXBUF];
         int len;
@@ -367,7 +366,7 @@ Info:
         return 0;
     }
 
-    int SYSFS_GPIO_Unexport(int Pin)
+    static int SYSFS_GPIO_Unexport(int Pin)
     {
         char buffer[NUM_MAXBUF];
         int len;
@@ -389,7 +388,7 @@ Info:
         return 0;
     }
 
-    int SYSFS_GPIO_Direction(int Pin, int Dir)
+    static int SYSFS_GPIO_Direction(int Pin, int Dir)
     {
         const char dir_str[] = "in\0out";
         char path[DIR_MAXSIZ];
@@ -422,7 +421,7 @@ Info:
         return 0;
     }
 
-    int SYSFS_GPIO_Read(int Pin)
+    static int SYSFS_GPIO_Read(int Pin)
     {
         char path[DIR_MAXSIZ];
         char value_str[3];
@@ -446,7 +445,7 @@ Info:
         return (atoi(value_str));
     }
 
-    int SYSFS_GPIO_Write(int Pin, int value)
+    static int SYSFS_GPIO_Write(int Pin, int value)
     {
         const char s_values_str[] = "01";
         char path[DIR_MAXSIZ];
@@ -469,4 +468,7 @@ Info:
         close(fd);
         return 0;
     }
+
+private:
+    SOFTWARE_SPI software_spi;
 };

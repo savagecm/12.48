@@ -8,10 +8,10 @@ class epd12in48
 public:
     static UBYTE EPD_12in48B_Init(void)
     {
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 1);
 
         EPD_Reset();
 
@@ -246,7 +246,7 @@ public:
     static void EPD_12in48B_TurnOnDisplay(void)
     {
         EPD_M1M2_SendCommand(0x04); //power on
-        DEV_Delay_ms(300);
+        piDriver::DEV_Delay_ms(300);
         EPD_M1S1M2S2_SendCommand(0x12); //Display Refresh
 
         // printf("M1 S1 M2 S2 \r\n");
@@ -258,11 +258,11 @@ public:
     static void EPD_12in48B_Sleep(void)
     {
         EPD_M1S1M2S2_SendCommand(0X02); //power off
-        DEV_Delay_ms(300);
+        piDriver::DEV_Delay_ms(300);
 
         EPD_M1S1M2S2_SendCommand(0X07); //deep sleep
         EPD_M1S1M2S2_SendData(0xA5);
-        DEV_Delay_ms(300);
+        piDriver::DEV_Delay_ms(300);
     }
 
 private:
@@ -272,15 +272,15 @@ parameter:
 ******************************************************************************/
     static void EPD_Reset(void)
     {
-        DEV_Digital_Write(EPD_M1S1_RST_PIN, 1);
-        DEV_Digital_Write(EPD_M2S2_RST_PIN, 1);
-        DEV_Delay_ms(200);
-        DEV_Digital_Write(EPD_M1S1_RST_PIN, 0);
-        DEV_Digital_Write(EPD_M2S2_RST_PIN, 0);
-        DEV_Delay_ms(10);
-        DEV_Digital_Write(EPD_M1S1_RST_PIN, 1);
-        DEV_Digital_Write(EPD_M2S2_RST_PIN, 1);
-        DEV_Delay_ms(200);
+        piDriver::DEV_Digital_Write(EPD_M1S1_RST_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_RST_PIN, 1);
+        piDriver::DEV_Delay_ms(200);
+        piDriver::DEV_Digital_Write(EPD_M1S1_RST_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2S2_RST_PIN, 0);
+        piDriver::DEV_Delay_ms(10);
+        piDriver::DEV_Digital_Write(EPD_M1S1_RST_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_RST_PIN, 1);
+        piDriver::DEV_Delay_ms(200);
     }
 
     /******************************************************************************
@@ -292,114 +292,114 @@ or:
 ******************************************************************************/
     static void EPD_M1_SendCommand(UBYTE Reg)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 0);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_SPI_WriteByte(Reg);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Reg);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
     }
     static void EPD_M1_SendData(UBYTE Data)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_SPI_WriteByte(Data);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Data);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
     }
 
     static void EPD_S1_SendCommand(UBYTE Reg)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 0);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 0);
-        DEV_SPI_WriteByte(Reg);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Reg);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 1);
     }
     static void EPD_S1_SendData(UBYTE Data)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 0);
-        DEV_SPI_WriteByte(Data);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Data);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 1);
     }
 
     static void EPD_M2_SendCommand(UBYTE Reg)
     {
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 0);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Reg);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Reg);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
     }
     static void EPD_M2_SendData(UBYTE Data)
     {
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Data);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Data);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
     }
 
     static void EPD_S2_SendCommand(UBYTE Reg)
     {
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 0);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Reg);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Reg);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 1);
     }
     static void EPD_S2_SendData(UBYTE Data)
     {
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 1);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Data);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Data);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 1);
     }
 
     static void EPD_M1M2_SendCommand(UBYTE Reg)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 0);
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 0);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Reg);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Reg);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
     }
     static void EPD_M1M2_SendData(UBYTE Data)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 1);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Data);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Data);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
     }
 
     static void EPD_M1S1M2S2_SendCommand(UBYTE Reg)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 0); // command write
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 0); // command write
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 0); // command write
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 0); // command write
 
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 0);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Reg);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Reg);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 1);
     }
     static void EPD_M1S1M2S2_SendData(UBYTE Data)
     {
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 1); // command write
-        DEV_Digital_Write(EPD_M2S2_DC_PIN, 1); // command write
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 1); // command write
+        piDriver::DEV_Digital_Write(EPD_M2S2_DC_PIN, 1); // command write
 
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 0);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 0);
-        DEV_SPI_WriteByte(Data);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 0);
+        piDriver::DEV_SPI_WriteByte(Data);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 1);
     }
 
     /******************************************************************************
@@ -412,11 +412,11 @@ parameter:
         do
         {
             EPD_M1_SendCommand(0x71);
-            busy = DEV_Digital_Read(EPD_M1_BUSY_PIN);
+            busy = piDriver::DEV_Digital_Read(EPD_M1_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (0);
         Debug("M1 Busy free\r\n");
-        DEV_Delay_ms(200);
+        piDriver::DEV_Delay_ms(200);
     }
     static void EPD_M2_ReadBusy(void)
     {
@@ -424,11 +424,11 @@ parameter:
         do
         {
             EPD_M2_SendCommand(0x71);
-            busy = DEV_Digital_Read(EPD_M2_BUSY_PIN);
+            busy = piDriver::DEV_Digital_Read(EPD_M2_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (busy);
         Debug("M2 Busy free\r\n");
-        DEV_Delay_ms(200);
+        piDriver::DEV_Delay_ms(200);
     }
     static void EPD_S1_ReadBusy(void)
     {
@@ -436,11 +436,11 @@ parameter:
         do
         {
             EPD_S1_SendCommand(0x71);
-            busy = DEV_Digital_Read(EPD_S1_BUSY_PIN);
+            busy = piDriver::DEV_Digital_Read(EPD_S1_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (busy);
         Debug("S1 Busy free\r\n");
-        DEV_Delay_ms(200);
+        piDriver::DEV_Delay_ms(200);
     }
     static void EPD_S2_ReadBusy(void)
     {
@@ -448,11 +448,11 @@ parameter:
         do
         {
             EPD_S2_SendCommand(0x71);
-            busy = DEV_Digital_Read(EPD_S2_BUSY_PIN);
+            busy = piDriver::DEV_Digital_Read(EPD_S2_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (busy);
         Debug("S2 Busy free\r\n");
-        DEV_Delay_ms(200);
+        piDriver::DEV_Delay_ms(200);
     }
 
     /******************************************************************************
@@ -463,19 +463,19 @@ parameter:
     {
         EPD_M1_SendCommand(0x40);
         EPD_M1_ReadBusy();
-        DEV_Delay_ms(300);
+        piDriver::DEV_Delay_ms(300);
 
-        DEV_Digital_Write(EPD_M1_CS_PIN, 0);
-        DEV_Digital_Write(EPD_S1_CS_PIN, 1);
-        DEV_Digital_Write(EPD_M2_CS_PIN, 1);
-        DEV_Digital_Write(EPD_S2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 0);
+        piDriver::DEV_Digital_Write(EPD_S1_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_M2_CS_PIN, 1);
+        piDriver::DEV_Digital_Write(EPD_S2_CS_PIN, 1);
 
-        DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
-        DEV_Delay_us(5);
+        piDriver::DEV_Digital_Write(EPD_M1S1_DC_PIN, 1);
+        piDriver::DEV_Delay_us(5);
 
         UBYTE temp;
-        temp = DEV_SPI_ReadByte(0x00);
-        DEV_Digital_Write(EPD_M1_CS_PIN, 1);
+        temp = piDriver::DEV_SPI_ReadByte(0x00);
+        piDriver::DEV_Digital_Write(EPD_M1_CS_PIN, 1);
         printf("Read Temperature Reg:%d\r\n", temp);
 
         EPD_M1S1M2S2_SendCommand(0xe0); //Cascade setting
