@@ -470,5 +470,5 @@ Info:
     }
 
 private:
-    SOFTWARE_SPI software_spi;
+    static SOFTWARE_SPI software_spi;
 };
