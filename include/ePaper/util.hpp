@@ -102,27 +102,27 @@
 /**
  * SPI communication mode
 **/
-typedef enum
+enum SPIMode
 {
     Mode0, /* Clock Polarity is 0 and Clock Phase is 0 */
     Mode1, /* Clock Polarity is 0 and Clock Phase is 1 */
     Mode2, /* Clock Polarity is 1 and Clock Phase is 0 */
     Mode3, /* Clock Polarity is 1 and Clock Phase is 1 */
-} SPIMode;
+};
 
 /**
  * Define SPI type
 **/
-typedef enum
+enum SPIType
 {
     Master,
     Slave,
-} SPIType;
+};
 
 /**
  * Define SPI attribute
 **/
-typedef struct SPIStruct
+struct SOFTWARE_SPI
 {
     UWORD SCLK_PIN;
     UWORD MOSI_PIN;
@@ -131,26 +131,7 @@ typedef struct SPIStruct
     SPIMode Mode;
     SPIType Type;
     UWORD Clock;
-} SOFTWARE_SPI;
-
-/**
- * Image attributes
-**/
-typedef struct
-{
-    UBYTE *Image;
-    UBYTE *RImage;
-    UWORD Width;
-    UWORD Height;
-    UWORD WidthMemory;
-    UWORD HeightMemory;
-    UWORD Color;
-    UWORD Rotate;
-    UWORD Mirror;
-    UWORD WidthByte;
-    UWORD HeightByte;
-} PAINT;
-extern volatile PAINT Paint;
+};
 
 /**
  * Display rotate
@@ -163,7 +144,7 @@ extern volatile PAINT Paint;
 /**
  * Display Flip
 **/
-typedef enum
+enum MIRROR_IMAGE
 {
     MIRROR_NONE = 0x00,
     MIRROR_HORIZONTAL = 0x01,
@@ -186,7 +167,7 @@ typedef enum
 /**
  * The size of the point
 **/
-typedef enum
+enum DOT_PIXEL
 {
     DOT_PIXEL_1X1 = 1, // 1 x 1
     DOT_PIXEL_2X2,     // 2 X 2
@@ -202,32 +183,32 @@ typedef enum
 /**
  * Point size fill style
 **/
-typedef enum
+enum DOT_STYLE
 {
     DOT_FILL_AROUND = 1, // dot pixel 1 x 1
     DOT_FILL_RIGHTUP,    // dot pixel 2 X 2
-} DOT_STYLE;
+};
 #define DOT_STYLE_DFT DOT_FILL_AROUND //Default dot pilex
 
 /**
  * Line style, solid or dashed
 **/
-typedef enum
+enum LINE_STYLE
 {
     LINE_STYLE_SOLID = 0,
     LINE_STYLE_DOTTED,
-} LINE_STYLE;
+};
 
 /**
  * Whether the graphic is filled
 **/
-typedef enum
+enum DRAW_FILL
 {
     DRAW_FILL_EMPTY = 0,
     DRAW_FILL_FULL,
 } DRAW_FILL;
 
-typedef struct
+struct PAINT
 {
     UBYTE *Image;
     UBYTE *RImage;
@@ -240,4 +221,4 @@ typedef struct
     UWORD Mirror;
     UWORD WidthByte;
     UWORD HeightByte;
-} PAINT;
+};

@@ -29,7 +29,7 @@
 #include "restServer/basic_controller.hpp"
 #include "restServer/epaperProcessor.hpp"
 #include "logger/logger.hpp"
-#include "epd1248b.hpp"
+#include "ePaper/epd12in48.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE // enable thread safety to json read on property tree!
 
