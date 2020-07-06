@@ -6,7 +6,7 @@
 class piDriver
 {
 public:
-    piDriver *getInstance()
+   static  piDriver *getInstance()
     {
         static piDriver *ret = new piDriver();
         return ret;
