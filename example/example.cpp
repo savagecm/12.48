@@ -11,6 +11,11 @@ int main()
     std::unique_ptr<simpleLogger> simpleLoggerUptr(new simpleLogger());
     INIT_LOGGER(simpleLoggerUptr);
     SET_LOG_LEVEL(debug);
+
+    if (CHECK_LOG_LEVEL(debug))
+    {
+        __LOG(debug, "now epaper init, logger init success");
+    }
     // init epaper
     epd12in48::EPD_12in48B_Init();
     // init rest server
@@ -25,12 +30,19 @@ int main()
         std::cout << "Modern C++ Microservice now listening for requests at: " << server.endpoint() << '\n';
 
         InterruptHandler::waitForUserInterrupt();
-
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "receive Interrupt, now start to shutdown");
+        }
         server.shutdown().wait();
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "after shutdown, programm going to exit");
+        }
     }
     catch (std::exception &e)
     {
-        std::cerr << "somehitng wrong happen! :(" << '\n';
+        std::cerr << "somehitng wrong happen! :( " << '\n';
     }
     catch (...)
     {
