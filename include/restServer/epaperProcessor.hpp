@@ -49,7 +49,7 @@ public:
     {
         if (CHECK_LOG_LEVEL(debug))
         {
-            __LOG(debug, "in the line case");
+            __LOG(debug, "in the string case");
         }
         string data;
         if (jValue.has_field("data"))

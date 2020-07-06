@@ -189,7 +189,7 @@ parameter:
         if (Color == BLACK)
         {
             // for black need to set the bit to 1
-            Paint.Image[Addr] = Rdata & (0x80 >> (X % 8));
+            Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
         }
         else if (Color == RED)
         {
@@ -198,6 +198,7 @@ parameter:
         }
         else if (Color == WHITE)
         {
+            // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
         }
         else
