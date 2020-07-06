@@ -8,6 +8,8 @@ class epd12in48
 public:
     static UBYTE EPD_12in48B_Init(void)
     {
+        piDriver::getInstance()->DEV_ModuleInit();
+
         piDriver::getInstance()->DEV_Digital_Write(EPD_M1_CS_PIN, 1);
         piDriver::getInstance()->DEV_Digital_Write(EPD_S1_CS_PIN, 1);
         piDriver::getInstance()->DEV_Digital_Write(EPD_M2_CS_PIN, 1);
