@@ -184,6 +184,12 @@ public:
         // Turn On Display
         EPD_12in48B_TurnOnDisplay();
     }
+    /*
+    颜色	0x10	0x13
+    白色	0xff	0x00
+    黑色	0x00	0x00
+    红色	0xff/0x00	0xff
+    */
     static void EPD_12in48B_Display(const UBYTE *BlackImage, const UBYTE *RedImage)
     {
         int x, y;
@@ -192,13 +198,15 @@ public:
         for (y = 0; y < 492; y++)
             for (x = 0; x < 81; x++)
             {
-                EPD_S2_SendData(*(BlackImage + (y * 163 + x)));
+                // 1 is white; 0 is black
+                EPD_S2_SendData(~*(BlackImage + (y * 163 + x)));
             }
         EPD_S2_SendCommand(0x13);
         for (y = 0; y < 492; y++)
             for (x = 0; x < 81; x++)
             {
-                EPD_S2_SendData(~*(RedImage + (y * 163 + x)));
+                // 0 is white/black, 1 is red
+                EPD_S2_SendData(*(RedImage + (y * 163 + x)));
             }
 
         //M2 part 656*492
@@ -206,13 +214,13 @@ public:
         for (y = 0; y < 492; y++)
             for (x = 81; x < 163; x++)
             {
-                EPD_M2_SendData(*(BlackImage + (y * 163) + x));
+                EPD_M2_SendData(~*(BlackImage + (y * 163) + x));
             }
         EPD_M2_SendCommand(0x13);
         for (y = 0; y < 492; y++)
             for (x = 81; x < 163; x++)
             {
-                EPD_M2_SendData(~*(RedImage + (y * 163 + x)));
+                EPD_M2_SendData(*(RedImage + (y * 163 + x)));
             }
 
         //S1 part 656*492
@@ -220,13 +228,13 @@ public:
         for (y = 492; y < 984; y++)
             for (x = 81; x < 163; x++)
             {
-                EPD_S1_SendData(*(BlackImage + (y * 163) + x));
+                EPD_S1_SendData(~*(BlackImage + (y * 163) + x));
             }
         EPD_S1_SendCommand(0x13);
         for (y = 492; y < 984; y++)
             for (x = 81; x < 163; x++)
             {
-                EPD_S1_SendData(~*(RedImage + (y * 163 + x)));
+                EPD_S1_SendData(*(RedImage + (y * 163 + x)));
             }
 
         //M1 part 648*492
@@ -234,13 +242,13 @@ public:
         for (y = 492; y < 984; y++)
             for (x = 0; x < 81; x++)
             {
-                EPD_M1_SendData(*(BlackImage + (y * 163) + x));
+                EPD_M1_SendData(~*(BlackImage + (y * 163) + x));
             }
         EPD_M1_SendCommand(0x13);
         for (y = 492; y < 984; y++)
             for (x = 0; x < 81; x++)
             {
-                EPD_M1_SendData(~*(RedImage + (y * 163 + x)));
+                EPD_M1_SendData(*(RedImage + (y * 163 + x)));
             }
 
         EPD_12in48B_TurnOnDisplay();

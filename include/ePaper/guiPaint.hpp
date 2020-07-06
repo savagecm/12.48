@@ -188,20 +188,24 @@ parameter:
         UBYTE Rdata = Paint.Image[Addr];
         if (Color == BLACK)
         {
-            // for black need to set the bit to 0
-            Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
+            // for black need to set the bit to 1
+            Paint.Image[Addr] = Rdata & (0x80 >> (X % 8));
         }
         else if (Color == RED)
         {
             // for red need to set the bit to 1
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
         }
+        else if (Color == WHITE)
+        {
+            Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
+        }
         else
         {
             // here there is some tricky
             // need to set BW/RW both
-            Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
-            Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
+            //Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
+            Debug("unsupport color\r\n");
         }
     }
 
