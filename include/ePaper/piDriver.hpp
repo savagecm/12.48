@@ -6,12 +6,17 @@
 class piDriver
 {
 public:
+    piDriver *getInstance()
+    {
+        static piDriver *ret = new piDriver();
+        return ret;
+    }
     /******************************************************************************
     function:	Write GPIO
     parameter:
     Info:   
     ******************************************************************************/
-    static void DEV_Digital_Write(UWORD Pin, UBYTE Value)
+    void DEV_Digital_Write(UWORD Pin, UBYTE Value)
     {
 #ifdef USE_BCM2835_LIB
         bcm2835_gpio_write(Pin, Value);
@@ -27,7 +32,7 @@ public:
     parameter:
     Info:   return  IO status
     ******************************************************************************/
-    static UBYTE DEV_Digital_Read(UWORD Pin)
+    UBYTE DEV_Digital_Read(UWORD Pin)
     {
         UBYTE Read_value = 0;
 #ifdef USE_BCM2835_LIB
@@ -45,7 +50,7 @@ function:	Set GPIO mode
 parameter:
 Info:
 ******************************************************************************/
-    static void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
+    void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
     {
 #ifdef USE_BCM2835_LIB
         if (Mode == 0 || Mode == BCM2835_GPIO_FSEL_INPT)
@@ -87,7 +92,7 @@ function:	Initialization pin
 parameter:
 Info:
 ******************************************************************************/
-    static void DEV_GPIOConfig(void)
+    void DEV_GPIOConfig(void)
     {
         //output
         DEV_GPIO_Mode(EPD_SCK_PIN, 1);
@@ -129,7 +134,7 @@ function:	Module Initialize, the BCM2835 library and initialize the pins, SPI pr
 parameter:
 Info:
 ******************************************************************************/
-    static UBYTE DEV_ModuleInit(void)
+    UBYTE DEV_ModuleInit(void)
     {
 #ifdef USE_BCM2835_LIB
         if (!bcm2835_init())
@@ -171,7 +176,7 @@ function:	Microsecond delay
 parameter:
 Info:
 ******************************************************************************/
-    static void DEV_Delay_us(UWORD xus)
+    void DEV_Delay_us(UWORD xus)
     {
         UWORD i;
         while (xus)
@@ -185,7 +190,7 @@ Info:
     /**
  * delay x ms
 **/
-    static void DEV_Delay_ms(UDOUBLE xms)
+    void DEV_Delay_ms(UDOUBLE xms)
     {
 #ifdef USE_BCM2835_LIB
         bcm2835_delay(xms);
@@ -205,7 +210,7 @@ function:	SPI Mode 0
 parameter:
 Info:
 ******************************************************************************/
-    static void DEV_SPI_WriteByte(UBYTE value)
+    void DEV_SPI_WriteByte(UBYTE value)
     {
         char i;
         DEV_Delay_us(6);
@@ -293,7 +298,7 @@ Info:
         }
     }
 
-    static UBYTE DEV_SPI_ReadByte(UBYTE Reg)
+    UBYTE DEV_SPI_ReadByte(UBYTE Reg)
     {
         unsigned char i, j;
         //set mosi pin intput
@@ -324,7 +329,7 @@ function:	Module exits, closes SPI and BCM2835 library
 parameter:
 Info:
 ******************************************************************************/
-    static void DEV_ModuleExit(void)
+    void DEV_ModuleExit(void)
     {
         DEV_Digital_Write(EPD_M1S1_RST_PIN, 0);
         DEV_Digital_Write(EPD_M2S2_RST_PIN, 0);
@@ -344,7 +349,7 @@ Info:
 #endif
     }
 
-    static int SYSFS_GPIO_Export(int Pin)
+    int SYSFS_GPIO_Export(int Pin)
     {
         char buffer[NUM_MAXBUF];
         int len;
@@ -366,7 +371,7 @@ Info:
         return 0;
     }
 
-    static int SYSFS_GPIO_Unexport(int Pin)
+    int SYSFS_GPIO_Unexport(int Pin)
     {
         char buffer[NUM_MAXBUF];
         int len;
@@ -388,7 +393,7 @@ Info:
         return 0;
     }
 
-    static int SYSFS_GPIO_Direction(int Pin, int Dir)
+    int SYSFS_GPIO_Direction(int Pin, int Dir)
     {
         const char dir_str[] = "in\0out";
         char path[DIR_MAXSIZ];
@@ -421,7 +426,7 @@ Info:
         return 0;
     }
 
-    static int SYSFS_GPIO_Read(int Pin)
+    int SYSFS_GPIO_Read(int Pin)
     {
         char path[DIR_MAXSIZ];
         char value_str[3];
@@ -445,7 +450,7 @@ Info:
         return (atoi(value_str));
     }
 
-    static int SYSFS_GPIO_Write(int Pin, int value)
+    int SYSFS_GPIO_Write(int Pin, int value)
     {
         const char s_values_str[] = "01";
         char path[DIR_MAXSIZ];
@@ -470,5 +475,5 @@ Info:
     }
 
 private:
-    static SOFTWARE_SPI software_spi;
+    SOFTWARE_SPI software_spi;
 };
