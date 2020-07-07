@@ -203,7 +203,7 @@ parameter:
             return;
         }
 
-        printf("x = %d, y = %d\r\n", X, Y);
+        //printf("x = %d, y = %d\r\n", X, Y);
         if (X > Paint.WidthMemory || Y > Paint.HeightMemory)
         {
             if (CHECK_LOG_LEVEL(debug))
