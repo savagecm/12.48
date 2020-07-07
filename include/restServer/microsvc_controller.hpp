@@ -222,7 +222,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-
+                /*
                 UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
 
                 UBYTE *BlackImage;
@@ -238,10 +238,17 @@ public:
                     exit(0);
                 }
 
-                //memset(RedImage, 0xFFFF, EPD_12in48B_MAX_WIDTH);
-                //memset(BlackImage+EPD_12in48B_MAX_WIDTH, 0xFFFF, EPD_12in48B_MAX_WIDTH);
-                //epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
-                epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
+                memset(RedImage, 0xFFFF, EPD_12in48B_MAX_WIDTH);
+                memset(BlackImage+EPD_12in48B_MAX_WIDTH, 0xFFFF, EPD_12in48B_MAX_WIDTH);
+                epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
+                */
+                //epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
+
+                for ( int i = 0 ; i < Imagesize; i ++){
+                std::cout<<(int)guiPaint::getInstance()->getBImage()[i];}
+                std::cout<<"-------------------------------------";
+                for ( int i = 0 ; i < Imagesize; i ++){
+                std::cout<<(int)guiPaint::getInstance()->getRImage()[i];}
             }
             else
             {
