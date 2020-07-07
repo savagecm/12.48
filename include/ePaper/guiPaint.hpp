@@ -160,6 +160,7 @@ parameter:
             // break;
             // #endif
         default:
+            Debug("unsupport rotate\r\n");
             return;
         }
 
@@ -178,6 +179,7 @@ parameter:
             Y = Paint.HeightMemory - Y - 1;
             break;
         default:
+            Debug("unsupport Mirror\r\n");
             return;
         }
 
@@ -189,7 +191,7 @@ parameter:
         }
 
         UDOUBLE Addr = X / 8 + Y * Paint.WidthByte;
-        
+
         if (Color == BLACK)
         {
             UBYTE Rdata = Paint.Image[Addr];
@@ -201,7 +203,7 @@ parameter:
             UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
-            std::cout<<Rdata;
+            std::cout << Rdata;
         }
         else if (Color == WHITE)
         {
@@ -870,15 +872,15 @@ private:
                 if (tmpChar & (0x1 << (7 - (j % 8))))
                 {
                     Paint_SetPixel(positionx + j, positiony + i, fcolour);
-                    std::cout <<'.';
+                    std::cout << '.';
                 }
                 else
                 {
                     Paint_SetPixel(positionx + j, positiony + i, bcolour);
-                    std::cout <<'-';
+                    std::cout << '-';
                 }
             }
-              std::cout <<'\n';
+            std::cout << '\n';
             charPos += (font->Width / 8);
         }
         free(chs);
