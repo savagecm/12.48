@@ -239,7 +239,8 @@ public:
                 }
 
                 memset(RedImage, 0xFFFF, EPD_12in48B_MAX_WIDTH);
-                epd12in48::EPD_12in48B_Display(BlackImage, RedImage, guiPaint::getInstance()->getRImage());
+                memset(BlackImage+EPD_12in48B_MAX_WIDTH, 0xFFFF, EPD_12in48B_MAX_WIDTH);
+                epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
                 //epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
             }
             else
