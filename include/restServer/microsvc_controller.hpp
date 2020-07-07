@@ -222,7 +222,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-                epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getPaint().Image, guiPaint::getInstance()->getPaint().RImage);
+                epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
             }
             else
             {

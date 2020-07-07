@@ -40,9 +40,13 @@ public:
         static guiPaint *ret = new guiPaint();
         return ret;
     }
-    PAINT getPaint()
+    UBYTE *getBImage()
     {
-        return Paint;
+        return Paint.Image;
+    }
+    UBYTE *getRImage()
+    {
+        return Paint.RImage;
     }
 
     /******************************************************************************
@@ -217,7 +221,7 @@ parameter:
 ******************************************************************************/
     void Paint_Clear(UWORD Color = WHITE)
     {
-        // Debug("x = %d, y = %d\r\n", Paint.WidthByte, Paint.Height);
+        Debug("x = %d, y = %d\r\n", Paint.WidthByte, Paint.Height);
         for (UWORD Y = 0; Y < Paint.HeightByte; Y++)
         {
             for (UWORD X = 0; X < Paint.WidthByte; X++)
@@ -744,10 +748,18 @@ private:
             {
                 if (isCH)
                 {
+                    if (CHECK_LOG_LEVEL(debug))
+                    {
+                        __LOG(debug, "display a chinese word : ");
+                    }
                     Bytes_Display(oneChar, font, posx, posy, colour, bcolour);
                 }
                 else
                 {
+                    if (CHECK_LOG_LEVEL(debug))
+                    {
+                        __LOG(debug, "display a ASCII chinese word : ");
+                    }
                     DrawCharAt(posx, posy, *oneChar, font, colour, bcolour);
                 }
                 posx += font->Width;
