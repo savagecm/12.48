@@ -189,19 +189,22 @@ parameter:
         }
 
         UDOUBLE Addr = X / 8 + Y * Paint.WidthByte;
-        UBYTE Rdata = Paint.Image[Addr];
+        
         if (Color == BLACK)
         {
+            UBYTE Rdata = Paint.Image[Addr];
             // for black need to set the bit to 1
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
         }
         else if (Color == RED)
         {
+            UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
         }
         else if (Color == WHITE)
         {
+            UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
         }
