@@ -866,15 +866,17 @@ private:
                 if (tmpChar & (0x1 << (7 - (j % 8))))
                 {
                     Paint_SetPixel(positionx + j, positiony + i, fcolour);
-                    printf('.');
+                 
+                    std::cout <<'.';
                 }
                 else
                 {
                     Paint_SetPixel(positionx + j, positiony + i, bcolour);
-                    printf('-');
+               
+                    std::cout <<'-';
                 }
             }
-              printf('\n');
+              std::cout <<'\n';
             charPos += (font->Width / 8);
         }
         free(chs);
