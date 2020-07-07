@@ -201,6 +201,7 @@ parameter:
             UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
+            std::cout<<Rdata;
         }
         else if (Color == WHITE)
         {
@@ -761,7 +762,7 @@ private:
                 {
                     if (CHECK_LOG_LEVEL(debug))
                     {
-                        __LOG(debug, "display a ASCII chinese word : ");
+                        __LOG(debug, "display a ASCII word : ");
                     }
                     DrawCharAt(posx, posy, *oneChar, font, colour, bcolour);
                 }

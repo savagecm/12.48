@@ -242,13 +242,17 @@ public:
                 memset(BlackImage+EPD_12in48B_MAX_WIDTH, 0xFFFF, EPD_12in48B_MAX_WIDTH);
                 epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
                 */
-                //epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
-
-                for ( int i = 0 ; i < Imagesize; i ++){
-                std::cout<<(int)guiPaint::getInstance()->getBImage()[i];}
-                std::cout<<"-------------------------------------";
-                for ( int i = 0 ; i < Imagesize; i ++){
-                std::cout<<(int)guiPaint::getInstance()->getRImage()[i];}
+                epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
+                /*
+                for (int i = 0; i < Imagesize; i++)
+                {
+                    std::cout << (int)guiPaint::getInstance()->getBImage()[i];
+                }
+                std::cout << "-------------------------------------";
+                for (int i = 0; i < Imagesize; i++)
+                {
+                    std::cout << (int)guiPaint::getInstance()->getRImage()[i];
+                }*/
             }
             else
             {
