@@ -866,13 +866,11 @@ private:
                 if (tmpChar & (0x1 << (7 - (j % 8))))
                 {
                     Paint_SetPixel(positionx + j, positiony + i, fcolour);
-                 
                     std::cout <<'.';
                 }
                 else
                 {
                     Paint_SetPixel(positionx + j, positiony + i, bcolour);
-               
                     std::cout <<'-';
                 }
             }

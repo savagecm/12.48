@@ -222,7 +222,25 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-                epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
+
+                UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
+
+                UBYTE *BlackImage;
+                UBYTE *RedImage;
+                if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
+                {
+                    printf("Failed to apply for black memory...\r\n");
+                    exit(0);
+                }
+                if ((RedImage = (UBYTE *)malloc(Imagesize)) == NULL)
+                {
+                    printf("Failed to apply for red memory...\r\n");
+                    exit(0);
+                }
+
+                memset(RedImage, 0xFFFF, EPD_12in48B_MAX_WIDTH);
+                epd12in48::EPD_12in48B_Display(BlackImage, RedImage, guiPaint::getInstance()->getRImage());
+                //epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
             }
             else
             {
