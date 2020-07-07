@@ -32,6 +32,9 @@ public:
         Paint.Width = EPD_12in48B_MAX_WIDTH;
         Paint.Height = EPD_12in48B_MAX_HEIGHT;
 
+        Paint.WidthMemory = Paint.Width;
+        Paint.HeightMemory = Paint.Width;
+
         Paint.WidthByte = Paint.Width / 8;
         Paint.HeightByte = Paint.Height;
     }
@@ -200,7 +203,7 @@ parameter:
             return;
         }
 
-        // printf("x = %d, y = %d\r\n", X, Y);
+        printf("x = %d, y = %d\r\n", X, Y);
         if (X > Paint.WidthMemory || Y > Paint.HeightMemory)
         {
             if (CHECK_LOG_LEVEL(debug))
