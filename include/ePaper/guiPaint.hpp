@@ -4,6 +4,8 @@
 
 #include "ePaper/util.hpp"
 
+#include "logger/logger.hpp"
+
 class guiPaint
 {
 
@@ -100,7 +102,10 @@ parameter:
     {
         if (Xpoint > Paint.Width || Ypoint > Paint.Height)
         {
-            Debug("Exceeding display boundaries\r\n");
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "unsupport rotate");
+            } 
             return;
         }
         UWORD X, Y;
@@ -160,7 +165,11 @@ parameter:
             // break;
             // #endif
         default:
-            Debug("unsupport rotate\r\n");
+
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "unsupport rotate");
+            }
             return;
         }
 
@@ -179,14 +188,20 @@ parameter:
             Y = Paint.HeightMemory - Y - 1;
             break;
         default:
-            Debug("unsupport Mirror\r\n");
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "unsupport mirror");
+            }
             return;
         }
 
         // printf("x = %d, y = %d\r\n", X, Y);
         if (X > Paint.WidthMemory || Y > Paint.HeightMemory)
         {
-            Debug("Exceeding display boundaries\r\n");
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "Exceeding display boundaries");
+            }
             return;
         }
 
@@ -216,7 +231,10 @@ parameter:
             // here there is some tricky
             // need to set BW/RW both
             //Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
-            Debug("unsupport color\r\n");
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "unsupport color");
+            }
         }
     }
 
