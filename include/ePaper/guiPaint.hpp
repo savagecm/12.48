@@ -29,6 +29,11 @@ public:
 
         Paint.Image = BlackImage;
         Paint.RImage = RedImage;
+        Paint.Width = EPD_12in48B_MAX_WIDTH;
+        Paint.Height = EPD_12in48B_MAX_HEIGHT;
+
+        Paint.WidthByte = Paint.Width / 8;
+        Paint.HeightByte = Paint.Height;
     }
 
     ~guiPaint()
@@ -104,8 +109,8 @@ parameter:
         {
             if (CHECK_LOG_LEVEL(debug))
             {
-                __LOG(debug, "unsupport rotate");
-            } 
+                __LOG(debug, "out of boundary");
+            }
             return;
         }
         UWORD X, Y;
