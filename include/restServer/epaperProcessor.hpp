@@ -102,7 +102,7 @@ public:
         }
 
         //{\"bcolor\":\"white\",\"fcolor\":\"red\",\"position\":[0,0],\"font\":40,\"data\":\"string detail\"}
-        guiPaint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "bcolor"), getColor(jValue, "fcolor"));
+        guiPaint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
         return epaperRet::SUCCESS;
     }
 

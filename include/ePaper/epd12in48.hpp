@@ -198,8 +198,8 @@ public:
         for (y = 0; y < 492; y++)
             for (x = 0; x < 81; x++)
             {
-                // 1 is white; 0 is black
-                EPD_S2_SendData(~*(BlackImage + (y * 163 + x)));
+                // 0 is white; 1 is black
+                EPD_S2_SendData(*(BlackImage + (y * 163 + x)));
             }
         EPD_S2_SendCommand(0x13);
         for (y = 0; y < 492; y++)
@@ -214,7 +214,7 @@ public:
         for (y = 0; y < 492; y++)
             for (x = 81; x < 163; x++)
             {
-                EPD_M2_SendData(~*(BlackImage + (y * 163) + x));
+                EPD_M2_SendData(*(BlackImage + (y * 163) + x));
             }
         EPD_M2_SendCommand(0x13);
         for (y = 0; y < 492; y++)
@@ -228,7 +228,7 @@ public:
         for (y = 492; y < 984; y++)
             for (x = 81; x < 163; x++)
             {
-                EPD_S1_SendData(~*(BlackImage + (y * 163) + x));
+                EPD_S1_SendData(*(BlackImage + (y * 163) + x));
             }
         EPD_S1_SendCommand(0x13);
         for (y = 492; y < 984; y++)
@@ -242,7 +242,7 @@ public:
         for (y = 492; y < 984; y++)
             for (x = 0; x < 81; x++)
             {
-                EPD_M1_SendData(~*(BlackImage + (y * 163) + x));
+                EPD_M1_SendData(*(BlackImage + (y * 163) + x));
             }
         EPD_M1_SendCommand(0x13);
         for (y = 492; y < 984; y++)

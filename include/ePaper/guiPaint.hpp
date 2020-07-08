@@ -233,6 +233,8 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
+            UBYTE RRdata = Paint.RImage[Addr];
+            Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
         }
         else
         {
@@ -522,7 +524,7 @@ parameter:
             *posxP = *posxP + fontWidth;
             if (*posyP + (*posxP / Paint.WidthMemory) * fontHight < Paint.HeightMemory)
             {
-                *posyP = *posyP + (*posxP / Paint.WidthMemory) * fontHight
+                *posyP = *posyP + (*posxP / Paint.WidthMemory) * fontHight;
             }
             else
             {
