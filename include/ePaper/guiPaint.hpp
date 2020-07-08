@@ -223,12 +223,14 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for black need to set the bit to 1
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
+            std::cout <<"black pixel";
         }
         else if (Color == RED)
         {
             UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
+            std::cout <<"red pixel";
             //std::cout << Rdata;
         }
         else if (Color == WHITE)
@@ -238,6 +240,7 @@ parameter:
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
             UBYTE RRdata = Paint.RImage[Addr];
             Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
+            std::cout <<"white pixel";
         }
         else
         {
@@ -267,6 +270,7 @@ parameter:
                 if (Color == BLACK || Color == WHITE)
                 {
                     Paint.Image[Addr] = ~Color;
+                    Paint.RImage[Addr] = 0x00;
                 }
                 else if (Color == RED)
                 {
