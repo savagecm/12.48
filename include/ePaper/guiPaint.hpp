@@ -29,7 +29,7 @@ public:
 
         memset(BlackImage, 0, Imagesize);
         memset(RedImage, 0, Imagesize);
-        
+
         Paint.Image = BlackImage;
         Paint.RImage = RedImage;
         Paint.Width = EPD_12in48B_MAX_WIDTH;
@@ -266,7 +266,7 @@ parameter:
                 UDOUBLE Addr = X + Y * Paint.WidthByte;
                 if (Color == BLACK || Color == WHITE)
                 {
-                    Paint.Image[Addr] = Color;
+                    Paint.Image[Addr] = ~Color;
                 }
                 else if (Color == RED)
                 {
