@@ -27,6 +27,9 @@ public:
             exit(0);
         }
 
+        memset(BlackImage, 0, Imagesize);
+        memset(RedImage, 0, Imagesize);
+        
         Paint.Image = BlackImage;
         Paint.RImage = RedImage;
         Paint.Width = EPD_12in48B_MAX_WIDTH;
