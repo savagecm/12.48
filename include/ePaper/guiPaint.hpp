@@ -36,7 +36,7 @@ public:
         Paint.Height = EPD_12in48B_MAX_HEIGHT;
 
         Paint.WidthMemory = Paint.Width;
-        Paint.HeightMemory = Paint.Width;
+        Paint.HeightMemory = Paint.Height;
 
         Paint.WidthByte = Paint.Width / 8;
         Paint.HeightByte = Paint.Height;
@@ -238,8 +238,8 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
-            UBYTE RRdata = Paint.RImage[Addr];
-            Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
+            //UBYTE RRdata = Paint.RImage[Addr];
+            //Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
             std::cout <<"white pixel";
         }
         else
