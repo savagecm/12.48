@@ -34,6 +34,8 @@ public:
         memset(BlackImage, 0, Imagesize);
         memset(RedImage, 0, Imagesize);
 
+        printf("alloc memory, red adress is %p, black address is %p\n", RedImage, Imagesize);
+
         Paint.Image = BlackImage;
         Paint.RImage = RedImage;
         Paint.Width = EPD_12in48B_MAX_WIDTH;
