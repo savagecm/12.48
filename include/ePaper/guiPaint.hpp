@@ -34,7 +34,7 @@ public:
         memset(BlackImage, 0, Imagesize);
         memset(RedImage, 0, Imagesize);
 
-        printf("alloc memory, red adress is %p, black address is %p\n", RedImage, Imagesize);
+        printf("alloc memory, red adress is %p, black address is %p\n", RedImage, BlackImage);
 
         Paint.Image = BlackImage;
         Paint.RImage = RedImage;
