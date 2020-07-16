@@ -12,6 +12,10 @@ class guiPaint
 public:
     guiPaint()
     {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "guiPaint constructure is entered!");
+        }
         UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
 
         UBYTE *BlackImage;
@@ -223,7 +227,7 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for black need to set the bit to 1
             //Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
-            *(Paint.Image+Addr) = Rdata | (0x80 >> (X % 8));
+            *(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"black pixel";
         }
         else if (Color == RED)
@@ -231,7 +235,7 @@ parameter:
             UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
             //Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
-            *(Paint.RImage+Addr) = Rdata | (0x80 >> (X % 8));
+            *(Paint.RImage + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"red pixel";
             //std::cout << Rdata;
         }
@@ -240,7 +244,7 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             //Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
-            *(Paint.Image+Addr) = Rdata & ~(0x80 >> (X % 8));
+            *(Paint.Image + Addr) = Rdata & ~(0x80 >> (X % 8));
             //UBYTE RRdata = Paint.RImage[Addr];
             //Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
             //std::cout <<"white pixel";
