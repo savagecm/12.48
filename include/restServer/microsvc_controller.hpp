@@ -192,6 +192,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/string");
                 }
+                printf("in the string case, red address is :%p, black address is %p\n", guiPaint::getInstance()->getRImage(), guiPaint::getInstance()->getBImage());
                 epaperProcessor::processString(jValue);
             }
             else if (path[1] == "image")
