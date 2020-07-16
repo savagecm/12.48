@@ -18,6 +18,7 @@ int main()
     }
     // init epaper
     epd12in48::EPD_12in48B_Init();
+    guiPaint::getInstance();
     // init rest server
     MicroserviceController server;
     http_listener_config server_config;
