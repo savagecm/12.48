@@ -256,6 +256,7 @@ public:
                 UBYTE *blackImage = guiPaint::getInstance()->getBImage();
                 blackImage[2] = 255;
                 //memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                printf("red address is %p, black address is %p\n", redImage, blackImage);
                 for (int i = 0; i < Imagesize; i++)
                 {
 
