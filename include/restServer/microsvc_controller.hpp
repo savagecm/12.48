@@ -246,7 +246,7 @@ public:
                 epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
                 */
                 //epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
-
+                UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
                 for (int i = 0; i < Imagesize; i++)
                 {
                     int out = guiPaint::getInstance()->getBImage()[i];
