@@ -306,6 +306,10 @@ public:
                 message.reply(status_codes::BadRequest);
                 return;
             }
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "now try to process data with json value and method");
+            }
             switch (ProcessData(jValue, path, method))
             {
             case epaperRet::SUCCESS:
