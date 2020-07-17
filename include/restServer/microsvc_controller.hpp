@@ -251,32 +251,30 @@ public:
                 int blackCount = 0;
 
                 UBYTE *redImage = guiPaint::getInstance()->getRImage();
-                redImage[1]=255;
+                redImage[1] = 255;
                 //memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
                 UBYTE *blackImage = guiPaint::getInstance()->getBImage();
-                blackImage[2]=255;
+                blackImage[2] = 255;
                 //memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
                 for (int i = 0; i < Imagesize; i++)
                 {
-
-                    blackCount++;
 
                     int out = blackImage[i];
                     if (out != 0)
                     {
                         std::cout << out;
+                        blackCount++;
                     }
                 }
                 std::cout << "-------------------------------------";
                 for (int i = 0; i < Imagesize; i++)
                 {
 
-                    redCount++;
-
                     int out = redImage[i];
                     if (out != 0)
                     {
                         std::cout << out;
+                        redCount++;
                     }
                 }
                 std::cout << "red count is :" << redCount << ", black count is : " << blackCount << std::endl;
