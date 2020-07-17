@@ -22,19 +22,23 @@ public:
         UBYTE *RedImage;
         if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
         {
-            printf("Failed to apply for black memory...\r\n");
+            if (CHECK_LOG_LEVEL(error))
+            {
+                __LOG(error, "Failed to apply for black memory!");
+            }
             exit(0);
         }
         if ((RedImage = (UBYTE *)malloc(Imagesize)) == NULL)
         {
-            printf("Failed to apply for red memory...\r\n");
+            if (CHECK_LOG_LEVEL(error))
+            {
+                __LOG(error, "Failed to apply for red memory!");
+            }
             exit(0);
         }
 
         memset(BlackImage, 0, Imagesize);
         memset(RedImage, 0, Imagesize);
-
-        printf("alloc memory, red adress is %p, black address is %p\n", RedImage, BlackImage);
 
         Paint.Image = BlackImage;
         Paint.RImage = RedImage;
@@ -83,12 +87,19 @@ parameter:
     {
         if (Rotate == ROTATE_0 || Rotate == ROTATE_90 || Rotate == ROTATE_180 || Rotate == ROTATE_270)
         {
-            Debug("Set image Rotate %d\r\n", Rotate);
+
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "Set image Rotate" << Rotate);
+            }
             Paint.Rotate = Rotate;
         }
         else
         {
-            Debug("rotate = 0, 90, 180, 270\r\n");
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "unsupport rotate : " << Rotate);
+            }
             exit(0);
         }
     }
@@ -103,13 +114,16 @@ parameter:
         if (mirror == MIRROR_NONE || mirror == MIRROR_HORIZONTAL ||
             mirror == MIRROR_VERTICAL || mirror == MIRROR_ORIGIN)
         {
-            Debug("mirror image x:%s, y:%s\r\n", (mirror & 0x01) ? "mirror" : "none", ((mirror >> 1) & 0x01) ? "mirror" : "none");
+
             Paint.Mirror = mirror;
         }
         else
         {
-            Debug("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
-        MIRROR_VERTICAL or MIRROR_ORIGIN\r\n");
+
+            if (CHECK_LOG_LEVEL(warn))
+            {
+                __LOG(warn, "mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, MIRROR_VERTICAL or MIRROR_ORIGIN");
+            }
             exit(0);
         }
     }
@@ -218,7 +232,6 @@ parameter:
             return;
         }
 
-        //printf("x = %d, y = %d\r\n", X, Y);
         if (X > Paint.WidthMemory || Y > Paint.HeightMemory)
         {
             if (CHECK_LOG_LEVEL(debug))
@@ -235,31 +248,18 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for black need to set the bit to 1
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
-            //*(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
-            //std::cout <<"black pixel";
-            //std::cout << (int)Paint.Image[Addr] << " ";
-            //std::cout<<"O";
         }
         else if (Color == RED)
         {
             UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
-            //*(Paint.RImage + Addr) = Rdata | (0x80 >> (X % 8));
-            //std::cout <<"red pixel";
-            //std::cout << (int)Paint.RImage[Addr] << " ";
-            //std::cout<<"i";
         }
         else if (Color == WHITE)
         {
             UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
-            //*(Paint.Image + Addr) = Rdata & ~(0x80 >> (X % 8));
-            //UBYTE RRdata = Paint.RImage[Addr];
-            //Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
-            //std::cout <<"white pixel";
-            //std::cout << "x";
         }
         else
         {
@@ -280,7 +280,6 @@ parameter:
 ******************************************************************************/
     void Paint_Clear(UWORD Color = WHITE)
     {
-        Debug("x = %d, y = %d\r\n", Paint.WidthByte, Paint.Height);
         for (UWORD Y = 0; Y < Paint.HeightByte; Y++)
         {
             for (UWORD X = 0; X < Paint.WidthByte; X++)
@@ -336,7 +335,10 @@ parameter:
     {
         if (Xpoint > Paint.Width || Ypoint > Paint.Height)
         {
-            Debug("Paint_DrawPoint Input exceeds the normal display range\r\n");
+            if (CHECK_LOG_LEVEL(warn))
+            {
+                __LOG(warn, "Paint_DrawPoint Input exceeds the normal display range");
+            }
             return;
         }
 
@@ -349,7 +351,6 @@ parameter:
                 {
                     if (Xpoint + XDir_Num - Dot_Pixel < 0 || Ypoint + YDir_Num - Dot_Pixel < 0)
                         break;
-                    // printf("x = %d, y = %d\r\n", Xpoint + XDir_Num - Dot_Pixel, Ypoint + YDir_Num - Dot_Pixel);
                     Paint_SetPixel(Xpoint + XDir_Num - Dot_Pixel, Ypoint + YDir_Num - Dot_Pixel, Color);
                 }
             }
@@ -381,7 +382,10 @@ parameter:
         if (Xstart > Paint.Width || Ystart > Paint.Height ||
             Xend > Paint.Width || Yend > Paint.Height)
         {
-            Debug("Paint_DrawLine Input exceeds the normal display range\r\n");
+            if (CHECK_LOG_LEVEL(warn))
+            {
+                __LOG(warn, "Paint_DrawLine Input exceeds the normal display range");
+            }
             return;
         }
 
@@ -404,7 +408,6 @@ parameter:
             //Painted dotted line, 2 point is really virtual
             if (Line_Style == LINE_STYLE_DOTTED && Dotted_Len % 3 == 0)
             {
-                //Debug("LINE_DOTTED\r\n");
                 Paint_DrawPoint(Xpoint, Ypoint, IMAGE_BACKGROUND, Dot_Pixel, DOT_STYLE_DFT);
                 Dotted_Len = 0;
             }
@@ -445,7 +448,10 @@ parameter:
         if (Xstart > Paint.Width || Ystart > Paint.Height ||
             Xend > Paint.Width || Yend > Paint.Height)
         {
-            Debug("Input exceeds the normal display range\r\n");
+            if (CHECK_LOG_LEVEL(warn))
+            {
+                __LOG(warn, "Input exceeds the normal display range");
+            }
             return;
         }
 
@@ -481,7 +487,10 @@ parameter:
     {
         if (X_Center > Paint.Width || Y_Center >= Paint.Height)
         {
-            Debug("Paint_DrawCircle Input exceeds the normal display range\r\n");
+            if (CHECK_LOG_LEVEL(warn))
+            {
+                __LOG(warn, "Paint_DrawCircle Input exceeds the normal display range");
+            }
             return;
         }
 
@@ -558,8 +567,10 @@ parameter:
             *posyP = *posyP + fontHight;
             if (*posyP > Paint.HeightMemory)
             {
-                printf("string out of boundary\n");
-
+                if (CHECK_LOG_LEVEL(warn))
+                {
+                    __LOG(warn, "string out of boundary");
+                }
                 return false;
             }
         }
@@ -576,7 +587,6 @@ parameter:
         {
             if (outStr[i] <= 0x7F)
             {
-                printf("receive ASCII code : %c\n", outStr[i]);
                 if (font == 8)
                 {
                     display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
@@ -955,15 +965,12 @@ private:
                 if (tmpChar & (0x1 << (7 - (j % 8))))
                 {
                     Paint_SetPixel(positionx + j, positiony + i, fcolour);
-                    //std::cout << '.';
                 }
                 else
                 {
                     Paint_SetPixel(positionx + j, positiony + i, bcolour);
-                    //std::cout << '-';
                 }
             }
-            //std::cout << '\n';
             charPos += (font->Width / 8);
         }
         free(chs);

@@ -2,7 +2,7 @@
 
 #include "ePaper/piDriver.hpp"
 #include "ePaper/util.hpp"
-
+#include "logger/logger.hpp"
 class epd12in48
 {
 public:
@@ -274,7 +274,6 @@ public:
         piDriver::getInstance()->DEV_Delay_ms(300);
         EPD_M1S1M2S2_SendCommand(0x12); //Display Refresh
 
-        // printf("M1 S1 M2 S2 \r\n");
         EPD_M1_ReadBusy();
         EPD_S1_ReadBusy();
         EPD_M2_ReadBusy();
@@ -440,7 +439,12 @@ parameter:
             busy = piDriver::getInstance()->DEV_Digital_Read(EPD_M1_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (0);
-        Debug("M1 Busy free\r\n");
+
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "M1 Busy free!");
+        }
+
         piDriver::getInstance()->DEV_Delay_ms(200);
     }
     static void EPD_M2_ReadBusy(void)
@@ -452,7 +456,11 @@ parameter:
             busy = piDriver::getInstance()->DEV_Digital_Read(EPD_M2_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (busy);
-        Debug("M2 Busy free\r\n");
+
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "M2 Busy free!");
+        }
         piDriver::getInstance()->DEV_Delay_ms(200);
     }
     static void EPD_S1_ReadBusy(void)
@@ -464,7 +472,11 @@ parameter:
             busy = piDriver::getInstance()->DEV_Digital_Read(EPD_S1_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (busy);
-        Debug("S1 Busy free\r\n");
+
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "S1 Busy free!");
+        }
         piDriver::getInstance()->DEV_Delay_ms(200);
     }
     static void EPD_S2_ReadBusy(void)
@@ -476,7 +488,11 @@ parameter:
             busy = piDriver::getInstance()->DEV_Digital_Read(EPD_S2_BUSY_PIN);
             busy = !(busy & 0x01);
         } while (busy);
-        Debug("S2 Busy free\r\n");
+
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "S2 Busy free!");
+        }
         piDriver::getInstance()->DEV_Delay_ms(200);
     }
 

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "ePaper/util.hpp"
-
+#include "logger/logger.hpp"
 /*------------------------------------------------------------------------------------------------------*/
 class piDriver
 {
 public:
-   static  piDriver *getInstance()
+    static piDriver *getInstance()
     {
         static piDriver *ret = new piDriver();
         return ret;
@@ -70,19 +70,16 @@ Info:
         else
         {
             pinMode(Pin, OUTPUT);
-            // Debug (" %d OUT \r\n",Pin);
         }
 #elif USE_DEV_LIB
         SYSFS_GPIO_Export(Pin);
         if (Mode == 0 || Mode == SYSFS_GPIO_IN)
         {
             SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_IN);
-            // Debug("IN Pin = %d\r\n",Pin);
         }
         else
         {
             SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_OUT);
-            // Debug("OUT Pin = %d\r\n",Pin);
         }
 #endif
     }
@@ -139,12 +136,20 @@ Info:
 #ifdef USE_BCM2835_LIB
         if (!bcm2835_init())
         {
-            printf("bcm2835 init failed  !!! \r\n");
+
+            if (CHECK_LOG_LEVEL(error))
+            {
+                __LOG(error, "bcm2835 init failed  !!!");
+            }
+
             return 1;
         }
         else
         {
-            printf("bcm2835 init success !!! \r\n");
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "bcm2835 init success  !!!");
+            }
         }
 #elif USE_WIRINGPI_LIB
         //if(wiringPiSetup() < 0)//use wiringpi Pin number table
