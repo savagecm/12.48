@@ -287,6 +287,10 @@ public:
         message.headers().add(U("Access-Control-Allow-Origin"), U("*"));
         if (!path.empty())
         {
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "path size is : " << path.size());
+            }
             web::json::value jValue;
             try
             {
@@ -322,6 +326,10 @@ public:
         }
         else
         {
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "path is empty");
+            }
             message.reply(status_codes::NotFound);
         }
     }

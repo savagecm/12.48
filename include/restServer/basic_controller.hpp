@@ -186,6 +186,10 @@ XzJTD4slrGSJrcpLt/g/Jqqdjg==
 
     std::vector<utility::string_t> requestPath(const http_request &message)
     {
+         if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "enter functiuon requestPath()");
+        }
         auto relativePath = uri::decode(message.relative_uri().path());
         return uri::split_path(relativePath);
     }
