@@ -249,10 +249,14 @@ public:
                 UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
                 int redCount = 0;
                 int blackCount = 0;
+
+                UBYTE *redImage = guiPaint::getInstance()->getRImage();
+                memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                UBYTE *blackImage = guiPaint::getInstance()->getBImage();
+                memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
                 for (int i = 0; i < Imagesize; i++)
                 {
-                    UBYTE *blackImage = guiPaint::getInstance()->getBImage();
-                    memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+
                     blackCount++;
 
                     int out = blackImage[i];
@@ -264,8 +268,7 @@ public:
                 std::cout << "-------------------------------------";
                 for (int i = 0; i < Imagesize; i++)
                 {
-                    UBYTE *redImage = guiPaint::getInstance()->getRImage();
-                    memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+
                     redCount++;
 
                     int out = redImage[i];
