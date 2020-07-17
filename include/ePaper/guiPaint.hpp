@@ -235,6 +235,7 @@ parameter:
             //Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
             *(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"black pixel";
+            std::cout<<"O";
         }
         else if (Color == RED)
         {
@@ -244,6 +245,7 @@ parameter:
             *(Paint.RImage + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"red pixel";
             //std::cout << Rdata;
+            std::cout<<"i";
         }
         else if (Color == WHITE)
         {
