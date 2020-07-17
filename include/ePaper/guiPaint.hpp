@@ -548,7 +548,7 @@ parameter:
 
         *posxP = *posxP + fontWidth;
 
-        if (*posx > Paint.WidthMemory)
+        if (*posxP > Paint.WidthMemory)
         {
             // need to change line
             *posxP = *posxP - fontWidth;
