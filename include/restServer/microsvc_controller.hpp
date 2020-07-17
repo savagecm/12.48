@@ -250,8 +250,9 @@ public:
                 for (int i = 0; i < Imagesize; i++)
                 {
                     UBYTE *blackImage = guiPaint::getInstance()->getBImage();
-                    memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH*2);
-                    
+                    memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                    printf("black data address is : %p\n", blackImage);
+
                     int out = blackImage[i];
                     if (out != 0)
                     {
@@ -261,7 +262,11 @@ public:
                 std::cout << "-------------------------------------";
                 for (int i = 0; i < Imagesize; i++)
                 {
-                    int out = guiPaint::getInstance()->getRImage()[i];
+                    UBYTE *redImage = guiPaint::getInstance()->getRImage();
+                    memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                    printf("red data address is : %p\n", redImage);
+
+                    int out = redImage[i];
                     if (out != 0)
                     {
                         std::cout << out;
