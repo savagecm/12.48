@@ -551,7 +551,7 @@ parameter:
         if (*posxP > Paint.WidthMemory)
         {
             // need to change line
-            *posxP = *posxP - fontWidth;
+            *posxP = *posxP - Paint.WidthMemory;
             // check if height out of bound
             *posyP = *posyP + fontHight;
             if (*posyP > Paint.HeightMemory)
