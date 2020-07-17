@@ -82,7 +82,7 @@ public:
     {
         if (CHECK_LOG_LEVEL(debug))
         {
-            __LOG(debug, "get a post message : " << message.to_string());
+            __LOG(debug, "get a post message : "); //<< message.to_string());
         }
         handleMessage(message, methods::POST);
     }
@@ -139,7 +139,7 @@ public:
     {
         if (CHECK_LOG_LEVEL(debug))
         {
-            __LOG(debug, "in function ProcessImage");
+            __LOG(debug, "in function ProcessData");
         }
         guiPaint *globPaint = guiPaint::getInstance();
         if (method == methods::POST || method == methods::PUT)
@@ -279,6 +279,10 @@ public:
     }
     void handleMessage(http_request message, const http::method &method)
     {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "enter functiuon handleMessage()");
+        }
         auto path = requestPath(message);
         message.headers().add(U("Access-Control-Allow-Origin"), U("*"));
         if (!path.empty())

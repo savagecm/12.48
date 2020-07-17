@@ -50,6 +50,10 @@ public:
 
     ~guiPaint()
     {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "guiPaint disstructure is entered!");
+        }
         free(Paint.Image);
         free(Paint.RImage);
     }
