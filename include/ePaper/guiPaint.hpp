@@ -237,7 +237,7 @@ parameter:
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"black pixel";
-            std::cout << (int)Paint.Image[Addr] << " ";
+            //std::cout << (int)Paint.Image[Addr] << " ";
             //std::cout<<"O";
         }
         else if (Color == RED)
@@ -247,7 +247,7 @@ parameter:
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.RImage + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"red pixel";
-            std::cout << (int)Paint.RImage[Addr] << " ";
+            //std::cout << (int)Paint.RImage[Addr] << " ";
             //std::cout<<"i";
         }
         else if (Color == WHITE)
@@ -259,7 +259,7 @@ parameter:
             //UBYTE RRdata = Paint.RImage[Addr];
             //Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
             //std::cout <<"white pixel";
-            std::cout << "x";
+            //std::cout << "x";
         }
         else
         {
@@ -551,7 +551,7 @@ parameter:
         if (*posxP > Paint.WidthMemory)
         {
             // need to change line
-            *posxP = *posxP - Paint.WidthMemory;
+            *posxP = 0;//*posxP - Paint.WidthMemory;
             // check if height out of bound
             *posyP = *posyP + fontHight;
             if (*posyP > Paint.HeightMemory)
