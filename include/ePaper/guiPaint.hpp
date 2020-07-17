@@ -235,7 +235,7 @@ parameter:
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
             std::cout <<"black pixel";
-            std::cout << Paint.BImage[Addr];
+            std::cout << Paint.Image[Addr];
             //std::cout<<"O";
         }
         else if (Color == RED)
