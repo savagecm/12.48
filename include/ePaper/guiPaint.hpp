@@ -257,7 +257,7 @@ parameter:
             //UBYTE RRdata = Paint.RImage[Addr];
             //Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
             //std::cout <<"white pixel";
-            //std::cout<<"x";
+            std::cout<<"x";
         }
         else
         {
