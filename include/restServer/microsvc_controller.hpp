@@ -249,7 +249,7 @@ public:
                 UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
                 for (int i = 0; i < Imagesize; i++)
                 {
-                    UBYTE *blackImage = guiPaint::getInstance()->getBImage()
+                    UBYTE *blackImage = guiPaint::getInstance()->getBImage();
                     int out = blackImage[i];
                     if (out != 0)
                     {
