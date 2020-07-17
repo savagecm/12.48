@@ -194,6 +194,41 @@ public:
                 }
                 printf("in the string case, red address is :%p, black address is %p\n", guiPaint::getInstance()->getRImage(), guiPaint::getInstance()->getBImage());
                 epaperProcessor::processString(jValue);
+                std::cout << "---------------------------------string--------------------------------------" << std::endl;
+                UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
+                int redCount = 0;
+                int blackCount = 0;
+
+                UBYTE *redImage = guiPaint::getInstance()->getRImage();
+                redImage[1] = 255;
+                //memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                UBYTE *blackImage = guiPaint::getInstance()->getBImage();
+                blackImage[2] = 255;
+                //memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                printf("red address is %p, black address is %p\n", redImage, blackImage);
+                for (int i = 0; i < Imagesize; i++)
+                {
+
+                    int out = blackImage[i];
+                    if (out != 0)
+                    {
+                        std::cout << out;
+                        blackCount++;
+                    }
+                }
+                std::cout << "-------------------------------------";
+                for (int i = 0; i < Imagesize; i++)
+                {
+
+                    int out = redImage[i];
+                    if (out != 0)
+                    {
+                        std::cout << out;
+                        redCount++;
+                    }
+                }
+                std::cout << "red count is :" << redCount << ", black count is : " << blackCount << std::endl;
+                std::cout << "---------------------------------string-end-------------------------------------" << std::endl;
             }
             else if (path[1] == "image")
             {
