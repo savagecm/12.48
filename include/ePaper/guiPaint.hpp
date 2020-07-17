@@ -545,13 +545,15 @@ parameter:
     }
     bool processPosition(int *posxP, int *posyP, int fontWidth, int fontHight)
     {
-
         *posxP = *posxP + fontWidth;
-
         if (*posxP > Paint.WidthMemory)
         {
             // need to change line
-            *posxP = 0;//*posxP - Paint.WidthMemory;
+            *posxP = 0; //*posxP - Paint.WidthMemory;
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "need to change line, set position to 0");
+            }
             // check if height out of bound
             *posyP = *posyP + fontHight;
             if (*posyP > Paint.HeightMemory)
@@ -843,10 +845,6 @@ private:
             {
                 if (isCH)
                 {
-                    if (CHECK_LOG_LEVEL(debug))
-                    {
-                        __LOG(debug, "display a chinese word : ");
-                    }
                     Bytes_Display(oneChar, font, posx, posy, colour, bcolour);
                 }
                 else
@@ -896,10 +894,6 @@ private:
         FILE *fp;
         unsigned long offset;
         std::string fileName = "HZK" + std::to_string(font->Height);
-        if (CHECK_LOG_LEVEL(debug))
-        {
-            __LOG(debug, "open HZK lib with name : " << fileName);
-        }
         if (font->Height == 12)
         {
             offset = ((s[0] - 0xa1) * 94 + (s[1] - 0xa1)) * 24;
