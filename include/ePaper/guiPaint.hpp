@@ -10,6 +10,8 @@ class guiPaint
 {
 
 public:
+    UBYTE *BlackImage;
+    UBYTE *RedImage;
     guiPaint()
     {
         if (CHECK_LOG_LEVEL(debug))
@@ -18,8 +20,6 @@ public:
         }
         UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
 
-        UBYTE *BlackImage;
-        UBYTE *RedImage;
         if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
         {
             printf("Failed to apply for black memory...\r\n");
@@ -65,11 +65,11 @@ public:
     }
     UBYTE *getBImage()
     {
-        return Paint.Image;
+        return BlackImage;
     }
     UBYTE *getRImage()
     {
-        return Paint.RImage;
+        return RedImage;
     }
 
     /******************************************************************************
@@ -232,20 +232,20 @@ parameter:
         {
             UBYTE Rdata = Paint.Image[Addr];
             // for black need to set the bit to 1
-            Paint.Image[Addr] = 0xFF;//Rdata | (0x80 >> (X % 8));
+            Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"black pixel";
-            std::cout << (int)Paint.Image[Addr]<<" ";
+            std::cout << (int)Paint.Image[Addr] << " ";
             //std::cout<<"O";
         }
         else if (Color == RED)
         {
             UBYTE Rdata = Paint.RImage[Addr];
             // for red need to set the bit to 1
-            Paint.RImage[Addr] = 0xFF;//Rdata | (0x80 >> (X % 8));
+            Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.RImage + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"red pixel";
-            std::cout << (int)Paint.RImage[Addr]<<" ";
+            std::cout << (int)Paint.RImage[Addr] << " ";
             //std::cout<<"i";
         }
         else if (Color == WHITE)
