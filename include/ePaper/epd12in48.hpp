@@ -192,7 +192,6 @@ public:
     */
     static void EPD_12in48B_Display(const UBYTE *BlackImage, const UBYTE *RedImage)
     {
-        printf("EPD_12in48B_Display black image address is : %p, red image address is :%p\n", BlackImage, RedImage);
         int x, y;
         //S1 part 648*492
         EPD_S2_SendCommand(0x10);
