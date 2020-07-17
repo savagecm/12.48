@@ -251,9 +251,11 @@ public:
                 int blackCount = 0;
 
                 UBYTE *redImage = guiPaint::getInstance()->getRImage();
-                memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                redImage[1]=255;
+                //memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
                 UBYTE *blackImage = guiPaint::getInstance()->getBImage();
-                memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
+                blackImage[2]=255;
+                //memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
                 for (int i = 0; i < Imagesize; i++)
                 {
 
