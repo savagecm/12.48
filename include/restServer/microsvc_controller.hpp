@@ -147,7 +147,7 @@ public:
             // for post, it means create
             // for put, it means update and user provide the whole info
             // so for these two methods, we need to clear first
-           // globPaint->Paint_Clear(WHITE);
+            // globPaint->Paint_Clear(WHITE);
         }
 
         // if we go into this function. the path is not empty and the path start with image
@@ -280,7 +280,8 @@ public:
                 memset(BlackImage+EPD_12in48B_MAX_WIDTH*12, 0xFFFF, EPD_12in48B_MAX_WIDTH*2);
                 epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
                 */
-                //epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
+                epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
+                /*
                 UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
                 int redCount = 0;
                 int blackCount = 0;
@@ -313,7 +314,11 @@ public:
                         redCount++;
                     }
                 }
-                std::cout << "red count is :" << redCount << ", black count is : " << blackCount << std::endl;
+                std::cout << "red count is :" << redCount << ", black count is : " << blackCount << std::endl;*/
+            }
+            else if (path[1] == "clear")
+            {
+                globPaint->Paint_Clear(WHITE);
             }
             else
             {
