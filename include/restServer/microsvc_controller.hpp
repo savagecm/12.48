@@ -192,43 +192,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/string");
                 }
-                printf("in the string case, red address is :%p, black address is %p\n", guiPaint::getInstance()->getRImage(), guiPaint::getInstance()->getBImage());
                 epaperProcessor::processString(jValue);
-                std::cout << "---------------------------------string--------------------------------------" << std::endl;
-                UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
-                int redCount = 0;
-                int blackCount = 0;
-
-                UBYTE *redImage = guiPaint::getInstance()->getRImage();
-                redImage[1] = 255;
-                //memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
-                UBYTE *blackImage = guiPaint::getInstance()->getBImage();
-                blackImage[2] = 255;
-                //memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
-                printf("red address is %p, black address is %p\n", redImage, blackImage);
-                for (int i = 0; i < Imagesize; i++)
-                {
-
-                    int out = blackImage[i];
-                    if (out != 0)
-                    {
-                        std::cout << out;
-                        blackCount++;
-                    }
-                }
-                std::cout << "-------------------------------------";
-                for (int i = 0; i < Imagesize; i++)
-                {
-
-                    int out = redImage[i];
-                    if (out != 0)
-                    {
-                        std::cout << out;
-                        redCount++;
-                    }
-                }
-                std::cout << "red count is :" << redCount << ", black count is : " << blackCount << std::endl;
-                std::cout << "---------------------------------string-end-------------------------------------" << std::endl;
             }
             else if (path[1] == "image")
             {
@@ -258,63 +222,8 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-                /*
-                
-                UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
 
-                UBYTE *BlackImage;
-                UBYTE *RedImage;
-                if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
-                {
-                    printf("Failed to apply for black memory...\r\n");
-                    exit(0);
-                }
-                if ((RedImage = (UBYTE *)malloc(Imagesize)) == NULL)
-                {
-                    printf("Failed to apply for red memory...\r\n");
-                    exit(0);
-                }
-
-                memset(RedImage, 0xFFFF, EPD_12in48B_MAX_WIDTH*10);
-                memset(BlackImage+EPD_12in48B_MAX_WIDTH, 0xFFFF, EPD_12in48B_MAX_WIDTH*2);
-                memset(BlackImage+EPD_12in48B_MAX_WIDTH*12, 0xFFFF, EPD_12in48B_MAX_WIDTH*2);
-                epd12in48::EPD_12in48B_Display(BlackImage, RedImage);
-                */
                 epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
-                /*
-                UDOUBLE Imagesize = (((EPD_12in48B_MAX_WIDTH % 8 == 0) ? (EPD_12in48B_MAX_WIDTH / 8) : (EPD_12in48B_MAX_WIDTH / 8 + 1)) * EPD_12in48B_MAX_HEIGHT);
-                int redCount = 0;
-                int blackCount = 0;
-
-                UBYTE *redImage = guiPaint::getInstance()->getRImage();
-                redImage[1] = 255;
-                //memset(redImage + EPD_12in48B_MAX_WIDTH * 4, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
-                UBYTE *blackImage = guiPaint::getInstance()->getBImage();
-                blackImage[2] = 255;
-                //memset(blackImage, 0xFFFF, EPD_12in48B_MAX_WIDTH * 2);
-                printf("red address is %p, black address is %p\n", redImage, blackImage);
-                for (int i = 0; i < Imagesize; i++)
-                {
-
-                    int out = blackImage[i];
-                    if (out != 0)
-                    {
-                        std::cout << out;
-                        blackCount++;
-                    }
-                }
-                std::cout << "-------------------------------------";
-                for (int i = 0; i < Imagesize; i++)
-                {
-
-                    int out = redImage[i];
-                    if (out != 0)
-                    {
-                        std::cout << out;
-                        redCount++;
-                    }
-                }
-                std::cout << "red count is :" << redCount << ", black count is : " << blackCount << std::endl;*/
             }
             else if (path[1] == "clear")
             {

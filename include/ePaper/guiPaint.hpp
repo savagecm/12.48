@@ -66,13 +66,11 @@ public:
     UBYTE *getBImage()
     {
         UBYTE *ret = Paint.Image;
-        printf("get black image, adress is %p \n", ret);
         return ret;
     }
     UBYTE *getRImage()
     {
         UBYTE *ret = Paint.RImage;
-        printf("get red image, adress is %p \n", ret);
         return ret;
     }
 
@@ -547,22 +545,24 @@ parameter:
     }
     bool processPosition(int *posxP, int *posyP, int fontWidth, int fontHight)
     {
-        if (*posyP < Paint.HeightMemory - fontHight)
+
+        *posxP = *posxP + fontWidth;
+
+        if (*posx > Paint.WidthMemory)
         {
-            *posxP = *posxP + fontWidth;
-            if (*posyP + (*posxP / Paint.WidthMemory) * fontHight < Paint.HeightMemory)
-            {
-                *posyP = *posyP + (*posxP / Paint.WidthMemory) * fontHight;
-            }
-            else
+            // need to change line
+            *posxP = *posxP - fontWidth;
+            // check if height out of bound
+            *posyP = *posyP + fontHight;
+            if (*posyP > Paint.HeightMemory)
             {
                 printf("string out of boundary\n");
+
+                return false;
             }
         }
-        else
-        {
-            printf("string out of boundary\n");
-        }
+
+        return true;
     }
     void printString(std::string inStr, int font, int posxIn, int posyIn, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
     {
