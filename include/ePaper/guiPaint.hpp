@@ -65,11 +65,15 @@ public:
     }
     UBYTE *getBImage()
     {
-        return Paint.Image;
+        UBYTE *ret = Paint.Image;
+        printf("get black image, adress is %p \n", ret);
+        return ret;
     }
     UBYTE *getRImage()
     {
-        return Paint.RImage;
+        UBYTE *ret = Paint.Rmage;
+        printf("get red image, adress is %p \n", ret);
+        return ret;
     }
 
     /******************************************************************************
@@ -235,7 +239,7 @@ parameter:
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.Image + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"black pixel";
-            std::cout << (int)Paint.Image[Addr]<<" ";
+            std::cout << (int)Paint.Image[Addr] << " ";
             //std::cout<<"O";
         }
         else if (Color == RED)
@@ -245,7 +249,7 @@ parameter:
             Paint.RImage[Addr] = Rdata | (0x80 >> (X % 8));
             //*(Paint.RImage + Addr) = Rdata | (0x80 >> (X % 8));
             //std::cout <<"red pixel";
-            std::cout << (int)Paint.RImage[Addr]<<" ";
+            std::cout << (int)Paint.RImage[Addr] << " ";
             //std::cout<<"i";
         }
         else if (Color == WHITE)
@@ -257,7 +261,7 @@ parameter:
             //UBYTE RRdata = Paint.RImage[Addr];
             //Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
             //std::cout <<"white pixel";
-            std::cout<<"x";
+            std::cout << "x";
         }
         else
         {
