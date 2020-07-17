@@ -147,7 +147,7 @@ public:
             // for post, it means create
             // for put, it means update and user provide the whole info
             // so for these two methods, we need to clear first
-            globPaint->Paint_Clear(WHITE);
+           // globPaint->Paint_Clear(WHITE);
         }
 
         // if we go into this function. the path is not empty and the path start with image
