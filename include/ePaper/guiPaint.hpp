@@ -71,7 +71,7 @@ public:
     }
     UBYTE *getRImage()
     {
-        UBYTE *ret = Paint.Rmage;
+        UBYTE *ret = Paint.RImage;
         printf("get red image, adress is %p \n", ret);
         return ret;
     }

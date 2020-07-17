@@ -197,60 +197,75 @@ public:
         //S1 part 648*492
         EPD_S2_SendCommand(0x10);
         for (y = 0; y < 492; y++)
+        {
             for (x = 0; x < 81; x++)
             {
                 // 0 is white; 1 is black
                 EPD_S2_SendData(~*(BlackImage + (y * 163 + x)));
             }
+        }
         EPD_S2_SendCommand(0x13);
         for (y = 0; y < 492; y++)
+        {
             for (x = 0; x < 81; x++)
             {
                 // 0 is white/black, 1 is red
                 EPD_S2_SendData(*(RedImage + (y * 163 + x)));
             }
-
+        }
         //M2 part 656*492
         EPD_M2_SendCommand(0x10);
         for (y = 0; y < 492; y++)
+        {
             for (x = 81; x < 163; x++)
             {
                 EPD_M2_SendData(~*(BlackImage + (y * 163) + x));
             }
+        }
         EPD_M2_SendCommand(0x13);
         for (y = 0; y < 492; y++)
+        {
             for (x = 81; x < 163; x++)
             {
                 EPD_M2_SendData(*(RedImage + (y * 163 + x)));
             }
+        }
 
         //S1 part 656*492
         EPD_S1_SendCommand(0x10);
         for (y = 492; y < 984; y++)
+        {
             for (x = 81; x < 163; x++)
             {
                 EPD_S1_SendData(~*(BlackImage + (y * 163) + x));
             }
+        }
         EPD_S1_SendCommand(0x13);
         for (y = 492; y < 984; y++)
+        {
             for (x = 81; x < 163; x++)
             {
                 EPD_S1_SendData(*(RedImage + (y * 163 + x)));
             }
+        }
 
         //M1 part 648*492
         EPD_M1_SendCommand(0x10);
         for (y = 492; y < 984; y++)
+        {
             for (x = 0; x < 81; x++)
             {
                 EPD_M1_SendData(~*(BlackImage + (y * 163) + x));
             }
+        }
         EPD_M1_SendCommand(0x13);
         for (y = 492; y < 984; y++)
+        {
             for (x = 0; x < 81; x++)
             {
                 EPD_M1_SendData(*(RedImage + (y * 163 + x)));
             }
+        }
 
         EPD_12in48B_TurnOnDisplay();
     }
