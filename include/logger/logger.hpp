@@ -26,7 +26,7 @@
 
 #pragma once
 
-#include <string>   // std::string
+#include <string>	// std::string
 #include <iostream> // std::cout
 #include <fstream>
 #include <sstream> // std::ostringstream

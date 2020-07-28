@@ -106,7 +106,6 @@ public:
         return epaperRet::SUCCESS;
     }
 
-
     static UWORD getColor(web::json::value jValue, string colorStr = "color")
     {
         UWORD Color = WHITE;
