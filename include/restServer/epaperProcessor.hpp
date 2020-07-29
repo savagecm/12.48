@@ -17,6 +17,7 @@ using namespace std;
 class epaperProcessor
 {
 public:
+    //void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
     static epaperRet processLine(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
@@ -47,6 +48,7 @@ public:
     //  void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
     static epaperRet processString(web::json::value jValue)
     {
+        //{\"bcolor\":\"white\",\"fcolor\":\"red\",\"position\":[0,0],\"font\":40,\"data\":\"string detail\"}
         if (CHECK_LOG_LEVEL(debug))
         {
             __LOG(debug, "in the string case");
@@ -101,11 +103,32 @@ public:
             return epaperRet::BAD_REQUEST;
         }
 
-        //{\"bcolor\":\"white\",\"fcolor\":\"red\",\"position\":[0,0],\"font\":40,\"data\":\"string detail\"}
         guiPaint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
         return epaperRet::SUCCESS;
     }
 
+    static epaperProcessor::processCircle(web::json::value jValue)
+    {
+        //  void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
+        //{\"color\":\"red\",\"position\":[0,0],\"radius\":40,\"fill\":\"full\",\"dotPixel\":\"1*1\"}
+        
+    }
+
+    static epaperProcessor::processRectangle(web::json::value jValue)
+    {
+    }
+    static epaperProcessor::processPoint(web::json::value jValue)
+    {
+    }
+    static epaperProcessor::processImage(web::json::value jValue)
+    {
+    }
+    static epaperProcessor::processGroup(web::json::value jValue)
+    {
+    }
+    static epaperProcessor::processRotate(web::json::value jValue)
+    {
+    }
     static UWORD getColor(web::json::value jValue, string colorStr = "color")
     {
         UWORD Color = WHITE;
@@ -217,5 +240,30 @@ public:
             }
         }
         return dot;
+    }
+
+    static DRAW_FILL getDrawFill(web::json::value jValue)
+    {
+        DRAW_FILL fill = DRAW_FILL_EMPTY;
+        if (jValue.has_field("fill"))
+        {
+            string fillType = jValue.at("fill").as_string();
+            if (!dotStr.compare("empty"))
+            {
+                fillType = DRAW_FILL_EMPTY;
+            }
+            else if (!dotStr.compare("full"))
+            {
+                fillType = DRAW_FILL_FULL;
+            }
+            else
+            {
+                if (CHECK_LOG_LEVEL(error))
+                {
+                    __LOG(error, "unsupport fill type" + fillType);
+                }
+            }
+        }
+        return fill;
     }
 };

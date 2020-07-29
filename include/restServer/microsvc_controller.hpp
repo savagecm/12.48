@@ -146,6 +146,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/circle");
                 }
+                epaperProcessor::processCircle(jValue);
             }
             else if (path[1] == "rectangle")
             {
@@ -153,6 +154,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/rectangle");
                 }
+                epaperProcessor::processRectangle(jValue);
             }
             else if (path[1] == "point")
             {
@@ -160,6 +162,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/point");
                 }
+                epaperProcessor::processPoint(jValue);
             }
             else if (path[1] == "string")
             {
@@ -175,6 +178,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/image");
                 }
+                epaperProcessor::processImage(jValue);
             }
             else if (path[1] == "group")
             {
@@ -182,6 +186,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/group");
                 }
+                epaperProcessor::processGroup(jValue);
             }
             else if (path[1] == "rotate")
             {
@@ -189,7 +194,7 @@ public:
                 {
                     __LOG(debug, "path with epaper/picRotate");
                 }
-                // epaperProcessor::processRotate(jValue.at("rotate").as_integer());
+                epaperProcessor::processRotate(jValue);
             }
             else if (path[1] == "display")
             {
@@ -197,7 +202,6 @@ public:
                 {
                     __LOG(debug, "path with epaper/display");
                 }
-
                 epd12in48::EPD_12in48B_Display(guiPaint::getInstance()->getBImage(), guiPaint::getInstance()->getRImage());
             }
             else if (path[1] == "clear")
