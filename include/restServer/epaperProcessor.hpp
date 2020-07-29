@@ -26,23 +26,10 @@ public:
         }
 
         //{"color":"red","positionx":[0,0],"positiony":[100,100],"lineStyle":"solid","dotPixel":"1*1"}
+        auto posx = getPosition("positionx");
+        auto posy = getPosition("positiony");
 
-        json::array posx = jValue.at("positionx").as_array();
-        json::array posy = jValue.at("positiony").as_array();
-        if (posx.size() != 2 || posy.size() != 2)
-        {
-            return epaperRet::BAD_REQUEST;
-        }
-        int posxx = posx.at(0).as_integer();
-        int posxy = posx.at(1).as_integer();
-        int posyx = posy.at(0).as_integer();
-        int posyy = posy.at(1).as_integer();
-
-        if (CHECK_LOG_LEVEL(debug))
-        {
-            __LOG(debug, "the line info is : " << posxx << ":" << posxy << ":" << posyx << ":" << posyy << ", color is : " << getColor(jValue));
-        }
-        guiPaint::getInstance()->Paint_DrawLine(posxx, posxy, posyx, posyy, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
+        guiPaint::getInstance()->Paint_DrawLine(posx.first, posx.second, posy.first, posy.second, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
     }
     //  void printString(std::string inStr, int font, int posx, int posy, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
@@ -53,57 +40,8 @@ public:
         {
             __LOG(debug, "in the string case");
         }
-        string data;
-        if (jValue.has_field("data"))
-        {
-            data = jValue.at("data").as_string();
-        }
-        else
-        {
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "no string in the json data");
-            }
-            return epaperRet::BAD_REQUEST;
-        }
-
-        int font;
-
-        if (jValue.has_field("font"))
-        {
-            font = jValue.at("font").as_integer();
-        }
-        else
-        {
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "no font in the json data");
-            }
-            return epaperRet::BAD_REQUEST;
-        }
-
-        int posx, posy;
-        if (jValue.has_field("position"))
-        {
-            json::array pos = jValue.at("position").as_array();
-
-            if (pos.size() != 2)
-            {
-                return epaperRet::BAD_REQUEST;
-            }
-            posx = pos.at(0).as_integer();
-            posy = pos.at(1).as_integer();
-        }
-        else
-        {
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "no position in the json data");
-            }
-            return epaperRet::BAD_REQUEST;
-        }
-
-        guiPaint::getInstance()->printString(data, font, posx, posy, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
+     
+        guiPaint::getInstance()->printString(getStringField(jValue, "data"), getIntField(jValue,"font"), pos.first, pos.second, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
         return epaperRet::SUCCESS;
     }
 
@@ -111,7 +49,6 @@ public:
     {
         //  void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
         //{\"color\":\"red\",\"position\":[0,0],\"radius\":40,\"fill\":\"full\",\"dotPixel\":\"1*1\"}
-        
     }
 
     static epaperProcessor::processRectangle(web::json::value jValue)
@@ -129,6 +66,7 @@ public:
     static epaperProcessor::processRotate(web::json::value jValue)
     {
     }
+    // optional
     static UWORD getColor(web::json::value jValue, string colorStr = "color")
     {
         UWORD Color = WHITE;
@@ -265,5 +203,73 @@ public:
             }
         }
         return fill;
+    }
+
+    // mandatory
+    static int getIntField(web::json::value jValue, std::string key)
+    {
+        int ret;
+        if (jValue.has_field(key))
+        {
+            ret = jValue.at(key).as_integer();
+        }
+        else
+        {
+            // to do
+            // throw
+        }
+        return ret;
+    }
+    static std::string getStringField(web::json::value jValue, std::string key)
+    {
+        std::string ret;
+        if (jValue.has_field(key))
+        {
+            ret = jValue.at(key).as_string();
+        }
+        else
+        {
+            // to do
+            // throw
+        }
+        return ret;
+    }
+    static std::pair<int, int> getPosition(web::json::value jValue, std::string key = "position")
+    {
+        int x, y;
+        if (jValue.has_field(key))
+        {
+            json::array pos = jValue.at(key).as_array();
+            if (pos.size() != 2)
+            {
+                // to do
+                // throw
+            }
+            else
+            {
+                x = pos.at(0).as_integer();
+                y = pos.at(1).as_integer();
+            }
+        }
+        return std::make_pair(x, y);
+    }
+    static std::pair<int, int> getPosition(web::json::value jValue, std::string key = "position")
+    {
+        int x, y;
+        if (jValue.has_field(key))
+        {
+            json::array pos = jValue.at(key).as_array();
+            if (pos.size() != 2)
+            {
+                // to do
+                // throw
+            }
+            else
+            {
+                x = pos.at(0).as_integer();
+                y = pos.at(1).as_integer();
+            }
+        }
+        return std::make_pair(x, y);
     }
 };
