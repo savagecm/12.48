@@ -24,7 +24,7 @@ public:
         {
             __LOG(debug, "in the line case");
         }
-
+        //    void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
         //{"color":"red","positionx":[0,0],"positiony":[100,100],"lineStyle":"solid","dotPixel":"1*1"}
         auto posx = getPosition("positionx");
         auto posy = getPosition("positiony");
@@ -40,8 +40,8 @@ public:
         {
             __LOG(debug, "in the string case");
         }
-     
-        guiPaint::getInstance()->printString(getStringField(jValue, "data"), getIntField(jValue,"font"), pos.first, pos.second, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
+        auto pos = getPosition();
+        guiPaint::getInstance()->printString(getStringField(jValue, "data"), getIntField(jValue, "font"), pos.first, pos.second, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
         return epaperRet::SUCCESS;
     }
 
@@ -49,22 +49,127 @@ public:
     {
         //  void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
         //{\"color\":\"red\",\"position\":[0,0],\"radius\":40,\"fill\":\"full\",\"dotPixel\":\"1*1\"}
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the circle case");
+        }
+        auto pos = getPosition();
+        guiPaint::getInstance()->Paint_DrawCircle(pos.first, pos.second, getIntField(jValue, "radius"), getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
     }
 
     static epaperProcessor::processRectangle(web::json::value jValue)
     {
+        //    void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
+        // {"color":"red","positionx":[0,0],"positiony":[100,100],\"fill\":\"full\",\"dotPixel\":\"1*1\"}
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the rectangle case");
+        }
+        auto posx = getPosition("positionx");
+        auto posy = getPosition("positiony");
+
+        guiPaint::getInstance()->Paint_DrawRectangle(posx.frist, posx.second, posy.first, posy.second, getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
     }
     static epaperProcessor::processPoint(web::json::value jValue)
     {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the point case");
+        }
+        //  void Paint_DrawPoint(UWORD Xpoint, UWORD Ypoint, UWORD Color, DOT_PIXEL Dot_Pixel, DOT_STYLE DOT_STYLE)
+        // {"color":"red","position":[0,0],"dotStyle":"fill_around","dotPixel":"1*1"}
+        auto pos = getPosition();
+        guiPaint::getInstance()->Paint_DrawPoint(pos.first, pos.second, getColor(jValue), getDotPixel(jValue), getDotStyle(jValue));
     }
     static epaperProcessor::processImage(web::json::value jValue)
     {
     }
+
+    /*
+    [{
+    "point": {
+        "color": "red",
+        "position": [0, 0],
+        "dotStyle": "fill_around",
+        "dotPixel": "1*1"
+    }
+    }, {
+        "point": {
+            "color": "red",
+            "position": [0, 0],
+            "dotStyle": "fill_around",
+            "dotPixel": "1*1"
+        }
+    }]
+    */
+
     static epaperProcessor::processGroup(web::json::value jValue)
     {
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the group case");
+        }
+
+        if (jValue.is_array())
+        {
+            auto oArray = jValue.as_array();
+
+            auto arraySize = oArray.size();
+            for (unsigned int i = 0; i < arraySize; arraySize++)
+            {
+                processItem(oArray.at(i));
+            }
+        }
+        else
+        {
+            if (CHECK_LOG_LEVEL(debug))
+            {
+                __LOG(debug, "group should be array!");
+            }
+        }
     }
+    // point, line,string,rectangle,circle,
+    static processItem(web::json::value jValue)
+    {
+
+        if (jValue.has_field("point"))
+        {
+            processPoint(jValue.at("point"));
+        }
+        else if (jValue.has_field("line"))
+        {
+            processLine(jValue.at("line"));
+        }
+        else if (jValue.has_field("string"))
+        {
+            processString(jValue.at("string"));
+        }
+        else if (jValue.has_field("rectangle"))
+        {
+            processRectangle(jValue.at("rectangle"));
+        }
+        else if (jValue.has_field("circle"))
+        {
+            processCircle(jValue.at("circle"));
+        }
+        else if (jValue.has_field("rotate"))
+        {
+            processRotate(jValue.at("rotate"));
+        }
+    }
+
     static epaperProcessor::processRotate(web::json::value jValue)
     {
+        // {"rotate":90}
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the rotate case");
+        }
+        if (jValue.has_field("rotate"))
+        {
+            int rotate = jValue.at("rotate".as_integer());
+            guiPaint::getInstance()->Paint_SetRotate(rotate);
+        }
     }
     // optional
     static UWORD getColor(web::json::value jValue, string colorStr = "color")
@@ -120,6 +225,39 @@ public:
         }
         return style;
     }
+
+    /*
+enum DOT_STYLE
+{
+    DOT_FILL_AROUND = 1, // dot pixel 1 x 1
+    DOT_FILL_RIGHTUP,    // dot pixel 2 X 2
+};*/
+
+    static DOT_STYLE getDotStyle(web::json::value jValue)
+    {
+        DOT_STYLE style = DOT_FILL_AROUND;
+        if (jValue.has_field("dotStyle"))
+        {
+            string dotStyle = jValue.at("dotStyle").as_string();
+            if (!lineStyle.compare("fill_around"))
+            {
+                style = DOT_FILL_AROUND;
+            }
+            else if (!dotStyle.compare("fill_rightup"))
+            {
+                style = DOT_FILL_RIGHTUP;
+            }
+            else
+            {
+                if (CHECK_LOG_LEVEL(error))
+                {
+                    __LOG(error, "unsupport dote style" + dotStyle);
+                }
+            }
+        }
+        return style;
+    }
+
     static DOT_PIXEL getDotPixel(web::json::value jValue)
     {
         DOT_PIXEL dot = DOT_PIXEL_1X1;
