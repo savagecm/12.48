@@ -45,7 +45,7 @@ public:
         return epaperRet::SUCCESS;
     }
 
-    static epaperProcessor::processCircle(web::json::value jValue)
+    static epaperRet epaperProcessor::processCircle(web::json::value jValue)
     {
         //  void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
         //{\"color\":\"red\",\"position\":[0,0],\"radius\":40,\"fill\":\"full\",\"dotPixel\":\"1*1\"}
@@ -55,9 +55,10 @@ public:
         }
         auto pos = getPosition();
         guiPaint::getInstance()->Paint_DrawCircle(pos.first, pos.second, getIntField(jValue, "radius"), getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
+        return epaperRet::SUCCESS;
     }
 
-    static epaperProcessor::processRectangle(web::json::value jValue)
+    static epaperRet epaperProcessor::processRectangle(web::json::value jValue)
     {
         //    void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
         // {"color":"red","positionx":[0,0],"positiony":[100,100],\"fill\":\"full\",\"dotPixel\":\"1*1\"}
@@ -69,8 +70,9 @@ public:
         auto posy = getPosition("positiony");
 
         guiPaint::getInstance()->Paint_DrawRectangle(posx.frist, posx.second, posy.first, posy.second, getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
+        return epaperRet::SUCCESS;
     }
-    static epaperProcessor::processPoint(web::json::value jValue)
+    static epaperRet epaperProcessor::processPoint(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -80,9 +82,24 @@ public:
         // {"color":"red","position":[0,0],"dotStyle":"fill_around","dotPixel":"1*1"}
         auto pos = getPosition();
         guiPaint::getInstance()->Paint_DrawPoint(pos.first, pos.second, getColor(jValue), getDotPixel(jValue), getDotStyle(jValue));
+        return epaperRet::SUCCESS;
     }
-    static epaperProcessor::processImage(web::json::value jValue)
+    static epaperRet epaperProcessor::processImage(web::json::value jValue)
     {
+        // {"location":"dir/xxx.bmp","position":[0,0]}
+        //UBYTE GUI_ReadBmp(const char *path, UWORD Xstart, UWORD Ystart)
+        std::string path;
+        if (jValue.has_field("location"))
+        {
+            path = jValue.at("location");
+        }
+        else
+        {
+            return epaperRet::BAD_REQUEST;
+        }
+        auto pos = getPosition();
+        guiPaint::getInstance()->GUI_ReadBmp(path.c_str(), pos.first, pos.second);
+        return epaperRet::SUCCESS;
     }
 
     /*
@@ -103,7 +120,7 @@ public:
     }]
     */
 
-    static epaperProcessor::processGroup(web::json::value jValue)
+    static epaperRet epaperProcessor::processGroup(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -127,9 +144,10 @@ public:
                 __LOG(debug, "group should be array!");
             }
         }
+        return epaperRet::SUCCESS;
     }
     // point, line,string,rectangle,circle,
-    static processItem(web::json::value jValue)
+    static void processItem(web::json::value jValue)
     {
 
         if (jValue.has_field("point"))
@@ -158,7 +176,7 @@ public:
         }
     }
 
-    static epaperProcessor::processRotate(web::json::value jValue)
+    static epaperRet epaperProcessor::processRotate(web::json::value jValue)
     {
         // {"rotate":90}
         if (CHECK_LOG_LEVEL(debug))
@@ -170,6 +188,7 @@ public:
             int rotate = jValue.at("rotate".as_integer());
             guiPaint::getInstance()->Paint_SetRotate(rotate);
         }
+        return epaperRet::SUCCESS;
     }
     // optional
     static UWORD getColor(web::json::value jValue, string colorStr = "color")
