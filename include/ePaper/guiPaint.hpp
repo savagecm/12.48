@@ -552,31 +552,7 @@ parameter:
             }
         }
     }
-    bool processPosition(int *posxP, int *posyP, int fontWidth, int fontHight)
-    {
-        *posxP = *posxP + fontWidth;
-        if (*posxP >= Paint.WidthMemory)
-        {
-            // need to change line
-            *posxP = 0; //*posxP - Paint.WidthMemory;
-            if (CHECK_LOG_LEVEL(debug))
-            {
-                __LOG(debug, "need to change line, set position to 0");
-            }
-            // check if height out of bound
-            *posyP = *posyP + fontHight;
-            if (*posyP > Paint.HeightMemory)
-            {
-                if (CHECK_LOG_LEVEL(warn))
-                {
-                    __LOG(warn, "string out of boundary");
-                }
-                return false;
-            }
-        }
 
-        return true;
-    }
     void printString(std::string inStr, int font, int posxIn, int posyIn, int colour, int bcolour, int maxWidth = EPD_12in48B_MAX_WIDTH, int maxHeight = EPD_12in48B_MAX_HEIGHT)
     {
         std::string outStr = utf8_to_gb2312(inStr);
@@ -590,27 +566,22 @@ parameter:
                 if (font == 8)
                 {
                     display_word(&outStr[i], &Font8, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, Font8.Height, Font8.Width);
                 }
                 else if (font == 12)
                 {
                     display_word(&outStr[i], &Font12, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, Font12.Height, Font12.Width);
                 }
                 else if (font == 16)
                 {
                     display_word(&outStr[i], &Font16, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, Font16.Height, Font16.Width);
                 }
                 else if (font == 20)
                 {
                     display_word(&outStr[i], &Font20, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, Font20.Height, Font20.Width);
                 }
                 else if (font == 24)
                 {
                     display_word(&outStr[i], &Font24, false, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, Font24.Height, Font24.Width);
                 }
                 else
                 {
@@ -628,37 +599,30 @@ parameter:
                 if (font == 12)
                 {
                     display_word(&outStr[i], &HZFont12, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont12.Height, HZFont12.Width);
                 }
                 else if (font == 14)
                 {
                     display_word(&outStr[i], &HZFont14, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont14.Height, HZFont14.Width);
                 }
                 else if (font == 16)
                 {
                     display_word(&outStr[i], &HZFont16, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont16.Height, HZFont16.Width);
                 }
                 else if (font == 24)
                 {
                     display_word(&outStr[i], &HZFont24, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont24.Height, HZFont24.Width);
                 }
                 else if (font == 32)
                 {
                     display_word(&outStr[i], &HZFont32, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont32.Height, HZFont32.Width);
                 }
                 else if (font == 40)
                 {
                     display_word(&outStr[i], &HZFont40, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont40.Height, HZFont40.Width);
                 }
                 else if (font == 48)
                 {
                     display_word(&outStr[i], &HZFont48, true, posx, posy, colour, bcolour, maxWidth, maxHeight);
-                    processPosition(&posx, &posy, HZFont48.Height, HZFont48.Width);
                 }
                 else
                 {
@@ -940,7 +904,7 @@ private:
         return convert("utf-8", "gb2312", from, ignore_error, skip_error);
     }
 
-    void display_word(char *oneChar, const sFONT *font, bool isCH, int posx, int posy, int colour, int bcolour, int maxWidth, int maxHeight)
+    void display_word(char *oneChar, const sFONT *font, bool isCH, int& posx, int& posy, int colour, int bcolour, int maxWidth, int maxHeight)
     {
         if ((posy + font->Height) <= maxHeight)
         {
