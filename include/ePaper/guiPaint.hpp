@@ -248,7 +248,7 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for black need to set the bit to 1
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
-             // for white need to set the bit to 0
+            // for white need to set the bit to 0
             Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
         }
         else if (Color == RED)
@@ -262,7 +262,7 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
-             // for white need to set the bit to 0
+            // for white need to set the bit to 0
             Paint.RImage[Addr] = Rdata & ~(0x80 >> (X % 8));
         }
         else
@@ -908,7 +908,7 @@ private:
         return convert("utf-8", "gb2312", from, ignore_error, skip_error);
     }
 
-    void display_word(char *oneChar, const sFONT *font, bool isCH, int& posx, int& posy, int colour, int bcolour, int maxWidth, int maxHeight)
+    void display_word(char *oneChar, const sFONT *font, bool isCH, int &posx, int &posy, int colour, int bcolour, int maxWidth, int maxHeight)
     {
         if ((posy + font->Height) <= maxHeight)
         {
