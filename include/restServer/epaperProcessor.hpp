@@ -26,8 +26,8 @@ public:
         }
         //    void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
         //{"color":"red","positionx":[0,0],"positiony":[100,100],"lineStyle":"solid","dotPixel":"1*1"}
-        auto posx = getPosition("positionx");
-        auto posy = getPosition("positiony");
+        auto posx = getPosition(jValue,"positionx");
+        auto posy = getPosition(jValue,"positiony");
 
         guiPaint::getInstance()->Paint_DrawLine(posx.first, posx.second, posy.first, posy.second, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
@@ -40,12 +40,12 @@ public:
         {
             __LOG(debug, "in the string case");
         }
-        auto pos = getPosition();
+        auto pos = getPosition(jValue);
         guiPaint::getInstance()->printString(getStringField(jValue, "data"), getIntField(jValue, "font"), pos.first, pos.second, getColor(jValue, "fcolor"), getColor(jValue, "bcolor"));
         return epaperRet::SUCCESS;
     }
 
-    static epaperRet epaperProcessor::processCircle(web::json::value jValue)
+    static epaperRet processCircle(web::json::value jValue)
     {
         //  void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
         //{\"color\":\"red\",\"position\":[0,0],\"radius\":40,\"fill\":\"full\",\"dotPixel\":\"1*1\"}
@@ -53,12 +53,12 @@ public:
         {
             __LOG(debug, "in the circle case");
         }
-        auto pos = getPosition();
+        auto pos = getPosition(jValue);
         guiPaint::getInstance()->Paint_DrawCircle(pos.first, pos.second, getIntField(jValue, "radius"), getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
     }
 
-    static epaperRet epaperProcessor::processRectangle(web::json::value jValue)
+    static epaperRet  processRectangle(web::json::value jValue)
     {
         //    void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
         // {"color":"red","positionx":[0,0],"positiony":[100,100],\"fill\":\"full\",\"dotPixel\":\"1*1\"}
@@ -66,13 +66,13 @@ public:
         {
             __LOG(debug, "in the rectangle case");
         }
-        auto posx = getPosition("positionx");
-        auto posy = getPosition("positiony");
+        auto posx = getPosition(jValue,"positionx");
+        auto posy = getPosition(jValue,"positiony");
 
-        guiPaint::getInstance()->Paint_DrawRectangle(posx.frist, posx.second, posy.first, posy.second, getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
+        guiPaint::getInstance()->Paint_DrawRectangle(posx. first, posx.second, posy.first, posy.second, getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
     }
-    static epaperRet epaperProcessor::processPoint(web::json::value jValue)
+    static epaperRet  processPoint(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -80,24 +80,24 @@ public:
         }
         //  void Paint_DrawPoint(UWORD Xpoint, UWORD Ypoint, UWORD Color, DOT_PIXEL Dot_Pixel, DOT_STYLE DOT_STYLE)
         // {"color":"red","position":[0,0],"dotStyle":"fill_around","dotPixel":"1*1"}
-        auto pos = getPosition();
+        auto pos = getPosition(jValue);
         guiPaint::getInstance()->Paint_DrawPoint(pos.first, pos.second, getColor(jValue), getDotPixel(jValue), getDotStyle(jValue));
         return epaperRet::SUCCESS;
     }
-    static epaperRet epaperProcessor::processImage(web::json::value jValue)
+    static epaperRet  processImage(web::json::value jValue)
     {
         // {"location":"dir/xxx.bmp","position":[0,0]}
         //UBYTE GUI_ReadBmp(const char *path, UWORD Xstart, UWORD Ystart)
         std::string path;
         if (jValue.has_field("location"))
         {
-            path = jValue.at("location");
+            path = jValue.at("location").as_string();
         }
         else
         {
             return epaperRet::BAD_REQUEST;
         }
-        auto pos = getPosition();
+        auto pos = getPosition(jValue);
         guiPaint::getInstance()->GUI_ReadBmp(path.c_str(), pos.first, pos.second);
         return epaperRet::SUCCESS;
     }
@@ -120,7 +120,7 @@ public:
     }]
     */
 
-    static epaperRet epaperProcessor::processGroup(web::json::value jValue)
+    static epaperRet  processGroup(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -176,7 +176,7 @@ public:
         }
     }
 
-    static epaperRet epaperProcessor::processRotate(web::json::value jValue)
+    static epaperRet  processRotate(web::json::value jValue)
     {
         // {"rotate":90}
         if (CHECK_LOG_LEVEL(debug))
@@ -185,7 +185,7 @@ public:
         }
         if (jValue.has_field("rotate"))
         {
-            int rotate = jValue.at("rotate".as_integer());
+            int rotate = jValue.at("rotate").as_integer();
             guiPaint::getInstance()->Paint_SetRotate(rotate);
         }
         return epaperRet::SUCCESS;
@@ -258,7 +258,7 @@ enum DOT_STYLE
         if (jValue.has_field("dotStyle"))
         {
             string dotStyle = jValue.at("dotStyle").as_string();
-            if (!lineStyle.compare("fill_around"))
+            if (!dotStyle.compare("fill_around"))
             {
                 style = DOT_FILL_AROUND;
             }
@@ -343,11 +343,11 @@ enum DOT_STYLE
         if (jValue.has_field("fill"))
         {
             string fillType = jValue.at("fill").as_string();
-            if (!dotStr.compare("empty"))
+            if (!fillType.compare("empty"))
             {
                 fillType = DRAW_FILL_EMPTY;
             }
-            else if (!dotStr.compare("full"))
+            else if (!fillType.compare("full"))
             {
                 fillType = DRAW_FILL_FULL;
             }
@@ -391,25 +391,7 @@ enum DOT_STYLE
         }
         return ret;
     }
-    static std::pair<int, int> getPosition(web::json::value jValue, std::string key = "position")
-    {
-        int x, y;
-        if (jValue.has_field(key))
-        {
-            json::array pos = jValue.at(key).as_array();
-            if (pos.size() != 2)
-            {
-                // to do
-                // throw
-            }
-            else
-            {
-                x = pos.at(0).as_integer();
-                y = pos.at(1).as_integer();
-            }
-        }
-        return std::make_pair(x, y);
-    }
+ 
     static std::pair<int, int> getPosition(web::json::value jValue, std::string key = "position")
     {
         int x, y;
