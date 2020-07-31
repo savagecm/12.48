@@ -197,16 +197,33 @@ public:
         if (jValue.has_field(colorStr))
         {
             string color = jValue.at(colorStr).as_string();
+            if (CHECK_LOG_LEVEL(debug))
+                {
+                    __LOG(debug, "parse color string is : " + color);
+                }
             if (!color.compare("red"))
             {
+                if (CHECK_LOG_LEVEL(debug))
+                {
+                    __LOG(debug, "red color");
+                }
                 Color = RED;
             }
             else if (!color.compare("white"))
             {
+                if (CHECK_LOG_LEVEL(debug))
+                {
+                    __LOG(debug, "white color");
+                }
                 Color = WHITE;
             }
             else if (!color.compare("black"))
             {
+                
+                if (CHECK_LOG_LEVEL(debug))
+                {
+                    __LOG(debug, "black color");
+                }
                 Color = BLACK;
             }
             else
@@ -345,11 +362,19 @@ enum DOT_STYLE
             string fillType = jValue.at("fill").as_string();
             if (!fillType.compare("empty"))
             {
-                fillType = DRAW_FILL_EMPTY;
+                 if (CHECK_LOG_LEVEL(debug))
+                {
+                    __LOG(debug, "fill empty");
+                }
+                fill = DRAW_FILL_EMPTY;
             }
             else if (!fillType.compare("full"))
             {
-                fillType = DRAW_FILL_FULL;
+                if (CHECK_LOG_LEVEL(debug))
+                {
+                    __LOG(debug, "fill full");
+                }
+                fill = DRAW_FILL_FULL;
             }
             else
             {
