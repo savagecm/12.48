@@ -86,6 +86,10 @@ public:
     }
     static epaperRet processImage(web::json::value jValue)
     {
+        f (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "in the image case");
+        }
         // {"location":"dir/xxx.bmp","position":[0,0]}
         //UBYTE GUI_ReadBmp(const char *path, UWORD Xstart, UWORD Ystart)
         std::string path;
