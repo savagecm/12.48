@@ -912,7 +912,7 @@ private:
         return convert("utf-8", "gb2312", from, ignore_error, skip_error);
     }
 
-    void display_word(char *oneChar, const sFONT *font, bool isCH, int& posx, int& posy, int colour, int bcolour, int maxWidth, int maxHeight)
+    void display_word(char *oneChar, const sFONT *font, bool isCH, int &posx, int &posy, int colour, int bcolour, int maxWidth, int maxHeight)
     {
         if ((posy + font->Height) <= maxHeight)
         {

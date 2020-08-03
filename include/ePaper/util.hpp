@@ -10,9 +10,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdint.h>
-#include <stdlib.h>	//exit()
+#include <stdlib.h> //exit()
 #include <string.h> //memset()
-#include <math.h> //memset()
+#include <math.h>   //memset()
 #define USE_BCM2835_LIB true
 
 #ifdef USE_BCM2835_LIB

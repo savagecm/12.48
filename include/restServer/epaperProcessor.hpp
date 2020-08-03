@@ -26,8 +26,8 @@ public:
         }
         //    void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
         //{"color":"red","positionx":[0,0],"positiony":[100,100],"lineStyle":"solid","dotPixel":"1*1"}
-        auto posx = getPosition(jValue,"positionx");
-        auto posy = getPosition(jValue,"positiony");
+        auto posx = getPosition(jValue, "positionx");
+        auto posy = getPosition(jValue, "positiony");
 
         guiPaint::getInstance()->Paint_DrawLine(posx.first, posx.second, posy.first, posy.second, getColor(jValue), getLineStyle(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
@@ -58,7 +58,7 @@ public:
         return epaperRet::SUCCESS;
     }
 
-    static epaperRet  processRectangle(web::json::value jValue)
+    static epaperRet processRectangle(web::json::value jValue)
     {
         //    void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color, DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
         // {"color":"red","positionx":[0,0],"positiony":[100,100],\"fill\":\"full\",\"dotPixel\":\"1*1\"}
@@ -66,13 +66,13 @@ public:
         {
             __LOG(debug, "in the rectangle case");
         }
-        auto posx = getPosition(jValue,"positionx");
-        auto posy = getPosition(jValue,"positiony");
+        auto posx = getPosition(jValue, "positionx");
+        auto posy = getPosition(jValue, "positiony");
 
-        guiPaint::getInstance()->Paint_DrawRectangle(posx. first, posx.second, posy.first, posy.second, getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
+        guiPaint::getInstance()->Paint_DrawRectangle(posx.first, posx.second, posy.first, posy.second, getColor(jValue), getDrawFill(jValue), getDotPixel(jValue));
         return epaperRet::SUCCESS;
     }
-    static epaperRet  processPoint(web::json::value jValue)
+    static epaperRet processPoint(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -84,7 +84,7 @@ public:
         guiPaint::getInstance()->Paint_DrawPoint(pos.first, pos.second, getColor(jValue), getDotPixel(jValue), getDotStyle(jValue));
         return epaperRet::SUCCESS;
     }
-    static epaperRet  processImage(web::json::value jValue)
+    static epaperRet processImage(web::json::value jValue)
     {
         // {"location":"dir/xxx.bmp","position":[0,0]}
         //UBYTE GUI_ReadBmp(const char *path, UWORD Xstart, UWORD Ystart)
@@ -120,7 +120,7 @@ public:
     }]
     */
 
-    static epaperRet  processGroup(web::json::value jValue)
+    static epaperRet processGroup(web::json::value jValue)
     {
         if (CHECK_LOG_LEVEL(debug))
         {
@@ -176,7 +176,7 @@ public:
         }
     }
 
-    static epaperRet  processRotate(web::json::value jValue)
+    static epaperRet processRotate(web::json::value jValue)
     {
         // {"rotate":90}
         if (CHECK_LOG_LEVEL(debug))
@@ -198,9 +198,9 @@ public:
         {
             string color = jValue.at(colorStr).as_string();
             if (CHECK_LOG_LEVEL(debug))
-                {
-                    __LOG(debug, "parse color string is : " + color);
-                }
+            {
+                __LOG(debug, "parse color string is : " + color);
+            }
             if (!color.compare("red"))
             {
                 if (CHECK_LOG_LEVEL(debug))
@@ -219,7 +219,7 @@ public:
             }
             else if (!color.compare("black"))
             {
-                
+
                 if (CHECK_LOG_LEVEL(debug))
                 {
                     __LOG(debug, "black color");
@@ -362,7 +362,7 @@ enum DOT_STYLE
             string fillType = jValue.at("fill").as_string();
             if (!fillType.compare("empty"))
             {
-                 if (CHECK_LOG_LEVEL(debug))
+                if (CHECK_LOG_LEVEL(debug))
                 {
                     __LOG(debug, "fill empty");
                 }
@@ -416,7 +416,7 @@ enum DOT_STYLE
         }
         return ret;
     }
- 
+
     static std::pair<int, int> getPosition(web::json::value jValue, std::string key = "position")
     {
         int x, y;
