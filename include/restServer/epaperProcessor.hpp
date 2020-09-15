@@ -86,7 +86,7 @@ public:
     }
     static epaperRet processImage(web::json::value jValue)
     {
-        f (CHECK_LOG_LEVEL(debug))
+        if (CHECK_LOG_LEVEL(debug))
         {
             __LOG(debug, "in the image case");
         }
