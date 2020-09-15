@@ -249,8 +249,8 @@ parameter:
             // for black need to set the bit to 1
             Paint.Image[Addr] = Rdata | (0x80 >> (X % 8));
 
-              UBYTE RRdata = Paint.RImage[Addr];
-             // for white need to set the bit to 0
+            UBYTE RRdata = Paint.RImage[Addr];
+            // for white need to set the bit to 0
             Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
         }
         else if (Color == RED)
@@ -264,10 +264,9 @@ parameter:
             UBYTE Rdata = Paint.Image[Addr];
             // for white need to set the bit to 0
             Paint.Image[Addr] = Rdata & ~(0x80 >> (X % 8));
-              UBYTE RRdata = Paint.RImage[Addr];
-             // for white need to set the bit to 0
+            UBYTE RRdata = Paint.RImage[Addr];
+            // for white need to set the bit to 0
             Paint.RImage[Addr] = RRdata & ~(0x80 >> (X % 8));
-             
         }
         else
         {
@@ -651,7 +650,10 @@ parameter:
         FILE *fp;                    //Define a file pointer
         BMPFILEHEADER bmpFileHeader; //Define a bmp file header structure
         BMPINFOHEADER bmpInfoHeader; //Define a bmp info header structure
-
+        if (CHECK_LOG_LEVEL(debug))
+        {
+            __LOG(debug, "open pic : " << std::string(path));
+        }
         // Binary file open
         if ((fp = fopen(path, "rb")) == NULL)
         {
